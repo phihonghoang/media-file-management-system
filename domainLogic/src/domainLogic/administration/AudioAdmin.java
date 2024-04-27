@@ -9,28 +9,62 @@ import java.util.List;
 public class AudioAdmin {
     private final List<AudioImpl> list;
 
-    public AudioAdmin() {
+    public AudioAdmin()
+    {
         this.list = new ArrayList<>();
     }
 
-    public void insert(AudioImpl audio) {
-        list.add(audio);
+
+    public boolean insert(AudioImpl audio)
+    {
+        if (audio == null)
+        {
+            return false;
+        }
+        else
+        {
+            list.add(audio);
+            return true;
+        }
     }
 
-    public boolean delete(String location) {
-        if (list.isEmpty()) {
+    public boolean delete(String location)
+    {
+        if (location == null)
+        {
             return false;
         }
 
-        return list.removeIf(audio -> audio.getAddress().equals(location));
+        if (list.isEmpty())
+        {
+            return false;
+        }
+
+        //return list.removeIf(audio -> audio.getAddress().equals(location));
+
+        for (AudioImpl audio : list)
+        {
+            if (audio.getAddress().equals(location))
+            {
+                list.remove(audio);
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    // read-only liste zurückgeben.
-    public List<Audio> list() {
+    public List<AudioImpl> list()
+    {
         return new ArrayList<>(list);
     }
 
-    public boolean update(String location) {
+    public boolean update(String location)
+    {
+        if (location == null) {
+            return false;
+        }
+
         if (list.isEmpty()) {
             return false;
         }
@@ -44,4 +78,5 @@ public class AudioAdmin {
 
         return false;
     }
+
 }
