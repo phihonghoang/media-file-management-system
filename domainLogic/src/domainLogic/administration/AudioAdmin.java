@@ -40,8 +40,6 @@ public class AudioAdmin {
             return false;
         }
 
-        //return list.removeIf(audio -> audio.getAddress().equals(location));
-
         for (AudioImpl audio : list)
         {
             if (audio.getAddress().equals(location))
