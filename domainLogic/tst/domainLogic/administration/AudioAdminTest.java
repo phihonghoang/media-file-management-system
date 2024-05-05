@@ -16,16 +16,19 @@ class AudioAdminTest {
     public void insert_notNull()
     {
         AudioAdmin admin = new AudioAdmin();
-        AudioImpl audio = new AudioImpl();
-        boolean result = admin.insert(audio);
+        AudioImpl audio = new AudioImpl(); // setup
 
-        assertTrue(result);
+
+        boolean result = admin.insert(audio); // untertest
+
+        assertTrue(result); //prüfen
     }
 
     @Test
     public void insert_null()
     {
         AudioAdmin admin = new AudioAdmin();
+
         boolean result = admin.insert(null);
 
         assertFalse(result);
@@ -36,7 +39,9 @@ class AudioAdminTest {
     {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl();
+
         admin.insert(audio);
+
         boolean result = admin.delete(audio.getAddress());
 
         assertTrue(result);
@@ -45,6 +50,7 @@ class AudioAdminTest {
     @Test
     public void delete_null() {
         AudioAdmin admin = new AudioAdmin();
+
         boolean result = admin.delete(null);
 
         assertFalse(result);
@@ -76,6 +82,7 @@ class AudioAdminTest {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl();
         admin.insert(audio);
+
         boolean result = admin.update(audio.getAddress());
 
         assertTrue(result);
@@ -87,6 +94,7 @@ class AudioAdminTest {
     {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl();
+        
         boolean result = admin.update(null);
 
         assertFalse(result);

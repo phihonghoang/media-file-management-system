@@ -23,20 +23,13 @@ public class AudioAdmin {
         }
         else
         {
-            list.add(audio);
-            return true;
+            return list.add(audio);
         }
     }
 
     public boolean delete(String location)
     {
-        if (location == null)
-        {
-            return false;
-        }
-
-        if (list.isEmpty())
-        {
+        if (location == null || list.isEmpty()) {
             return false;
         }
 
@@ -44,8 +37,8 @@ public class AudioAdmin {
         {
             if (audio.getAddress().equals(location))
             {
-                list.remove(audio);
-                return true;
+
+                return list.remove(audio);
             }
         }
 
@@ -59,11 +52,7 @@ public class AudioAdmin {
 
     public boolean update(String location)
     {
-        if (location == null) {
-            return false;
-        }
-
-        if (list.isEmpty()) {
+        if (location == null || list.isEmpty()) {
             return false;
         }
 
