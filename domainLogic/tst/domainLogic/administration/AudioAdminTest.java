@@ -18,7 +18,6 @@ class AudioAdminTest {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl(); // setup
 
-
         boolean result = admin.insert(audio); // untertest
 
         assertTrue(result); //prüfen
@@ -41,7 +40,6 @@ class AudioAdminTest {
         AudioImpl audio = new AudioImpl();
 
         admin.insert(audio);
-
         boolean result = admin.delete(audio.getAddress());
 
         assertTrue(result);
@@ -70,6 +68,7 @@ class AudioAdminTest {
     {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl();
+
         admin.insert(audio);
         List<AudioImpl> audioList = admin.list();
 
@@ -81,8 +80,8 @@ class AudioAdminTest {
     {
         AudioAdmin admin = new AudioAdmin();
         AudioImpl audio = new AudioImpl();
-        admin.insert(audio);
 
+        admin.insert(audio);
         boolean result = admin.update(audio.getAddress());
 
         assertTrue(result);

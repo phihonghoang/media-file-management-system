@@ -50,6 +50,9 @@ public class AudioAdmin {
         return new ArrayList<>(list);
     }
 
+
+    // setter darf nur intern, nicht extern für den Kunden.
+    // Up-cast ist in ordnung aber Down-cast nicht.
     public boolean update(String location)
     {
         if (location == null || list.isEmpty()) {
@@ -58,7 +61,7 @@ public class AudioAdmin {
 
         for (AudioImpl audio : list) {
             if (audio.getAddress().equals(location)) {
-                audio.setAccessCount(audio.getAccessCount()+1);
+                //audio.setAccessCount(audio.getAccessCount()+1);
                 return true;
             }
         }

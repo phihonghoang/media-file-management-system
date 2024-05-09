@@ -56,7 +56,7 @@ public class AudioImpl implements Audio {
         return null;
     }
 
-    public void setAccessCount(long accessCount) {
+    private void setAccessCount(long accessCount) {
         this.accessCount = accessCount;
     }
 }
