@@ -51,7 +51,7 @@ public class AudioAdmin {
 
         for (AudioImpl audio : list) {
             if (audio.getAddress().equals(location)) {
-                //audio.setAccessCount(audio.getAccessCount()+1);
+                audio.setAccessCount(audio.getAccessCount()+1);
                 return true;
             }
         }

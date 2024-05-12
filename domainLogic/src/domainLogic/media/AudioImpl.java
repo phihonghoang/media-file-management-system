@@ -11,6 +11,14 @@ import java.util.List;
 
 public class AudioImpl implements Audio {
     private long accessCount;
+    private Uploader uploader;
+    private String address;
+
+    public AudioImpl(Uploader uploader, String address) {
+        this.accessCount = 0;
+        this.uploader = uploader;
+        this.address = address;
+    }
 
     public AudioImpl() {
         this.accessCount = 0;
@@ -23,7 +31,7 @@ public class AudioImpl implements Audio {
 
     @Override
     public String getAddress() {
-        return "";
+        return address;
     }
 
     @Override
@@ -43,7 +51,7 @@ public class AudioImpl implements Audio {
 
     @Override
     public Uploader getUploader() {
-        return null;
+        return uploader;
     }
 
     @Override
@@ -56,7 +64,7 @@ public class AudioImpl implements Audio {
         return null;
     }
 
-    private void setAccessCount(long accessCount) {
+    public void setAccessCount(long accessCount) {
         this.accessCount = accessCount;
     }
 }
