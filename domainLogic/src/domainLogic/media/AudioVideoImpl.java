@@ -9,49 +9,24 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 
-public class AudioVideoImpl implements AudioVideo {
+public class AudioVideoImpl extends MediaUploadableItem implements AudioVideo {
+    private int sampleRate;
+    private int resolution;
+
+
+    public AudioVideoImpl(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost, int sampleRate, int resolution) {
+        super(address, tags, accessCount, size, uploader, cost);
+        this.sampleRate = sampleRate;
+        this.resolution = resolution;
+    }
+
     @Override
     public int getSamplingRate() {
-        return 0;
+        return sampleRate;
     }
 
     @Override
     public int getResolution() {
-        return 0;
-    }
-
-    @Override
-    public String getAddress() {
-        return "";
-    }
-
-    @Override
-    public Collection<Tag> getTags() {
-        return List.of();
-    }
-
-    @Override
-    public long getAccessCount() {
-        return 0;
-    }
-
-    @Override
-    public long getSize() {
-        return 0;
-    }
-
-    @Override
-    public Uploader getUploader() {
-        return null;
-    }
-
-    @Override
-    public Duration getAvailability() {
-        return null;
-    }
-
-    @Override
-    public BigDecimal getCost() {
-        return null;
+        return resolution;
     }
 }

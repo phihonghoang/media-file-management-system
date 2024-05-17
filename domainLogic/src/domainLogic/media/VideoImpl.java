@@ -9,44 +9,16 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 
-public class VideoImpl implements Video {
+public class VideoImpl extends MediaUploadableItem implements Video {
+    private int resolution;
+
+    public VideoImpl(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost, int resolution) {
+        super(address, tags, accessCount, size, uploader, cost);
+        this.resolution = resolution;
+    }
+
     @Override
     public int getResolution() {
-        return 0;
-    }
-
-    @Override
-    public String getAddress() {
-        return "";
-    }
-
-    @Override
-    public Collection<Tag> getTags() {
-        return List.of();
-    }
-
-    @Override
-    public long getAccessCount() {
-        return 0;
-    }
-
-    @Override
-    public long getSize() {
-        return 0;
-    }
-
-    @Override
-    public Uploader getUploader() {
-        return null;
-    }
-
-    @Override
-    public Duration getAvailability() {
-        return null;
-    }
-
-    @Override
-    public BigDecimal getCost() {
-        return null;
+        return resolution;
     }
 }
