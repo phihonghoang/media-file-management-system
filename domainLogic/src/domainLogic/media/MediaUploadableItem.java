@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class MediaUploadableItem implements MediaContent, Uploadable {
     private String address;
@@ -20,10 +21,10 @@ public abstract class MediaUploadableItem implements MediaContent, Uploadable {
     private BigDecimal cost;
 
 
-    public MediaUploadableItem(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost) {
-        this.address = address;
+    public MediaUploadableItem(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost) {
+        this.address = UUID.randomUUID().toString();
         this.tags = tags;
-        this.accessCount = accessCount;
+        this.accessCount = 0;
         this.size = size;
         this.uploader = uploader;
         this.cost = cost;

@@ -22,6 +22,7 @@ public class MediaUploadableCRUD {
         }
     }
 
+    // Eventuell Iterator
     public boolean delete(String location) {
         if (location == null || list.isEmpty()) {
             return false;
@@ -29,7 +30,6 @@ public class MediaUploadableCRUD {
 
         for (MediaUploadableItem mui : list) {
             if (mui.getAddress().equals(location)) {
-
                 return list.remove(mui);
             }
         }

@@ -2,9 +2,7 @@ package domainLogic.administration;
 
 import contract.Tag;
 import contract.Uploader;
-import domainLogic.media.AudioImpl;
-import domainLogic.media.MediaUploadableItem;
-import domainLogic.media.UploaderImpl;
+import domainLogic.media.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +27,9 @@ class MediaUploadableCRUDTest {
         Uploader uploader = new UploaderImpl("Phi");
         BigDecimal cost = new BigDecimal("500");
 
-        audio = new AudioImpl("addressAudio", tags, 0, 0, uploader, cost, 500);
-        video = new AudioImpl("addressVideo", tags, 0, 0, uploader, cost, 500);
-        audioVideo = new AudioImpl("addressAudioVideo", tags, 0, 0, uploader, cost, 500);
+        audio = new AudioImpl(tags, 0, uploader, cost, 500);
+        video = new VideoImpl(tags,  0, uploader, cost, 500);
+        audioVideo = new AudioVideoImpl( tags, 0, uploader, cost, 500, 500);
 
         muCRUD = new MediaUploadableCRUD();
     }

@@ -14,8 +14,8 @@ public class AudioVideoImpl extends MediaUploadableItem implements AudioVideo {
     private int resolution;
 
 
-    public AudioVideoImpl(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost, int sampleRate, int resolution) {
-        super(address, tags, accessCount, size, uploader, cost);
+    public AudioVideoImpl(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost, int sampleRate, int resolution) {
+        super(tags, size, uploader, cost);
         this.sampleRate = sampleRate;
         this.resolution = resolution;
     }

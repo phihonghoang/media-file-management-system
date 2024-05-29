@@ -12,8 +12,8 @@ import java.util.List;
 public class AudioImpl extends MediaUploadableItem implements Audio {
     private int samplingRate;
 
-    public AudioImpl(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost, int samplingRate) {
-        super(address, tags, accessCount, size, uploader, cost);
+    public AudioImpl(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost, int samplingRate) {
+        super(tags, size, uploader, cost);
         this.samplingRate = samplingRate;
     }
 

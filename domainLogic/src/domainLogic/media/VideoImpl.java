@@ -12,8 +12,8 @@ import java.util.List;
 public class VideoImpl extends MediaUploadableItem implements Video {
     private int resolution;
 
-    public VideoImpl(String address, Collection<Tag> tags, long accessCount, long size, Uploader uploader, BigDecimal cost, int resolution) {
-        super(address, tags, accessCount, size, uploader, cost);
+    public VideoImpl(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost, int resolution) {
+        super(tags, size, uploader, cost);
         this.resolution = resolution;
     }
 
