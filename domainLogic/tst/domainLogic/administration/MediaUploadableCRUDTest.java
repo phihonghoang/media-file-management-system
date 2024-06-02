@@ -58,27 +58,27 @@ class MediaUploadableCRUDTest {
         muCRUD.insert(video);
         muCRUD.insert(audioVideo);
 
-        boolean audioRes = muCRUD.delete(audio.getAddress());
-        boolean videoRes = muCRUD.delete(video.getAddress());
-        boolean audioVideoRes = muCRUD.delete(audioVideo.getAddress());
+        MediaUploadableItem audioDel = muCRUD.delete(audio.getAddress());
+        MediaUploadableItem videoDel = muCRUD.delete(video.getAddress());
+        MediaUploadableItem audioVideoDel = muCRUD.delete(audioVideo.getAddress());
 
-        assertTrue(audioRes);
-        assertTrue(videoRes);
-        assertTrue(audioVideoRes);
+        assertEquals(audio, audioDel);
+        assertEquals(video, videoDel);
+        assertEquals(audioVideo, audioVideoDel);
     }
 
     @Test
     public void delete_nonExistingLocation() {
-        boolean res = muCRUD.delete("1234");
+        MediaUploadableItem mui = muCRUD.delete("1234");
 
-        assertFalse(res);
+        assertNull(mui);
     }
 
     @Test
     public void delete_null() {
-        boolean res = muCRUD.delete(null);
+        MediaUploadableItem mui = muCRUD.delete(null);
 
-        assertFalse(res);
+        assertNull(mui);
     }
 
     @Test

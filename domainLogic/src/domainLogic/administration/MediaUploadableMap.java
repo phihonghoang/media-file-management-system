@@ -8,9 +8,11 @@ import java.util.Map;
 public class MediaUploadableMap {
 
     private Map<String, MediaUploadableCRUD> map;
+    private long capacity;
 
-    public MediaUploadableMap() {
+    public MediaUploadableMap(long capacity) {
         map = new HashMap<>();
+        this.capacity = capacity;
     }
 
     public boolean insertUploader(String uploader, MediaUploadableCRUD crud) {
@@ -28,13 +30,21 @@ public class MediaUploadableMap {
 
     public boolean insertMUI(String uploader, MediaUploadableItem mui) {
         if (uploader == null || mui == null) {
+            System.out.println("Uploader or mui is null");
             return false;
         }
 
         if (!(map.containsKey(uploader))) {
+            System.out.println("Uploader not exist");
             return false;
         }
 
+        if ((getCapacity() - mui.getSize()) < 0) {
+            System.out.println("Capacity exceeded");
+            return false;
+        }
+
+        setCapacity(getCapacity() - mui.getSize());
         map.get(uploader).insert(mui);
         return true;
     }
@@ -48,21 +58,31 @@ public class MediaUploadableMap {
             return false;
         }
 
+        long totalUploaderSize = 0;
+        for (MediaUploadableItem items : map.get(uploader).getList()) {
+            totalUploaderSize += items.getSize();
+        }
+
+        setCapacity(getCapacity() + totalUploaderSize);
         map.remove(uploader);
         return true;
     }
 
-    public boolean deleteMUI(String location) {
+    public MediaUploadableItem deleteMUI(String location) {
         if (location == null || map.isEmpty()) {
-            return false;
+            return null;
         }
 
-        boolean found = false;
+        MediaUploadableItem muiDel = null;
         for (MediaUploadableCRUD list: map.values()) {
-            found = list.delete(location);
+            muiDel = list.delete(location);
         }
 
-        return found;
+        if (muiDel != null) {
+            setCapacity(getCapacity() + muiDel.getSize());
+        }
+
+        return muiDel;
     }
 
     public Map<String, MediaUploadableCRUD> getMap() {
@@ -80,5 +100,13 @@ public class MediaUploadableMap {
         }
 
         return found;
+    }
+
+    private void setCapacity(long capacity) {
+        this.capacity = capacity;
+    }
+
+    public long getCapacity() {
+        return capacity;
     }
 }

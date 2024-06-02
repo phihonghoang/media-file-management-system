@@ -23,18 +23,20 @@ public class MediaUploadableCRUD {
     }
 
     // Eventuell Iterator
-    public boolean delete(String location) {
+    public MediaUploadableItem delete(String location) {
         if (location == null || list.isEmpty()) {
-            return false;
+            return null;
         }
 
         for (MediaUploadableItem mui : list) {
             if (mui.getAddress().equals(location)) {
-                return list.remove(mui);
+                if (list.remove(mui)) {
+                    return mui;
+                }
             }
         }
 
-        return false;
+        return null;
     }
 
     public List<MediaUploadableItem> getList() {

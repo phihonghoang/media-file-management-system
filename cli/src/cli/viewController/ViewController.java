@@ -125,31 +125,16 @@ public class ViewController {
     }
 
     public void insertionMode(String input) {
-        System.out.println("Insertion mode:");
-        System.out.println("[P-Name]");
-        System.out.println("[Media-Typ] [P-Name] [kommaseparierte Tags, einzelnes Komma für keine] [Größe] [Abrufkosten] [[Optionale Parameter]]");
-
         System.out.println(createUploader(input));
         System.out.println(validateMedia(input));
     }
 
     public void deleteMode(String input) {
-        System.out.println("deletion mode:");
-        System.out.println("[P-Name]");
-        System.out.println("[Abrufadresse]");
-
-        System.out.println(deleteUploader(input));
-        System.out.println(deleteMedia(input));
+        //System.out.println(deleteUploader(input));
+        //System.out.println(deleteMedia(input));
     }
 
     public void displayMode(String input) {
-        System.out.println("display mode:");
-        System.out.println("uploader");
-        System.out.println("content [[Typ]]");
-        System.out.println("tag [enthalten(i)/nicht enthalten(e)]");
-
-        //String[] parts = input.trim().split(" ");
-
         switch (input) {
             case "uploader":
                 displayUploader();
@@ -160,19 +145,16 @@ public class ViewController {
                 break;
 
             case "tag i", "tag e":
-                System.out.println("tag");
+                displayTag(model.getMap().values(), input);
                 break;
 
             default:
                 System.out.println("Invalid input");
                 break;
         }
-
     }
 
     public void updateMode(String input) {
-        System.out.println("update mode:");
-        System.out.println("[Abrufadresse]");
         System.out.println(updateMedia(input));
     }
 
@@ -184,7 +166,6 @@ public class ViewController {
 
     public boolean createUploader(String input) {
         String[] parts;
-        //parts = input.trim().split("[ ]+");
         parts = input.trim().split("\\s+");
 
         if (inputValidator.uploaderValidation(parts)) {
@@ -194,7 +175,6 @@ public class ViewController {
         return false;
     }
 
-    // Kontrolle: Bei einem falschen Tag, Long und BigDecimal
     public boolean validateMedia(String input) {
         String[] parts;
         parts = input.trim().split("\\s+");
@@ -255,7 +235,7 @@ public class ViewController {
         return model.deleteUploader(uploader);
     }
 
-    public boolean deleteMedia(String location) {
+    public MediaUploadableItem deleteMedia(String location) {
         return model.deleteMUI(location);
     }
 
@@ -296,8 +276,8 @@ public class ViewController {
     public List<MediaUploadableItem> filterMediaType(Collection<MediaUploadableCRUD> mapValues, String mediaType) {
         List<MediaUploadableItem> list = new ArrayList<>();
 
-        for (MediaUploadableCRUD lists : mapValues) {
-            for (MediaUploadableItem items : lists.getList()) {
+        for (MediaUploadableCRUD muCrud : mapValues) {
+            for (MediaUploadableItem items : muCrud.getList()) {
                 if (validateMediaType(items, mediaType)) {
                     list.add(items);
                 }
@@ -321,17 +301,64 @@ public class ViewController {
                 break;
             case "AudioVideo":
                 if (items instanceof AudioVideoImpl) {
-                    //System.out.println("AudioVideo" + ", Abrufadresse: " + items.getAddress() + ", Abrufe: " + items.getAccessCount());
                     return true;
                 }
                 break;
         }
-
         return false;
     }
 
-    public void displayTag() {
+    // Nochmal die Ausgabe auf der Konsole ändern!
+    public boolean displayTag(Collection<MediaUploadableCRUD> mapValues, String input) {
+        if (mapValues.isEmpty()) {
+            System.out.println("Empty!");
+            return false;
+        }
 
+        String[] parts = input.trim().split(" ");
+        String tagIE = parts[1];
+
+        Collection<Tag> list = filterTag(mapValues);
+
+        if (list.isEmpty()) {
+            System.out.println("Empty!");
+            return false;
+        }
+
+        if (tagIE.equals("i")) {
+            for (Tag tag : list) {
+                System.out.print(tag + " ");
+            }
+            return true;
+        }
+
+        for (Tag tag : Tag.values()) {
+            if (!(list.contains(tag))) {
+                System.out.print(tag + " ");
+            }
+        }
+
+        return true;
+    }
+
+    public Collection<Tag> filterTag(Collection<MediaUploadableCRUD> mapValues) {
+        Collection<Tag> list = new ArrayList<>();
+
+        for (MediaUploadableCRUD muCrud : mapValues) {
+            for (MediaUploadableItem items : muCrud.getList()) {
+                for (Tag itemTag : items.getTags()) {
+                    for (Tag tag : Tag.values()) {
+
+                        if (itemTag.equals(tag) && (!(list.contains(tag)))) {
+                            list.add(tag);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return list;
     }
 
     public boolean updateMedia(String location) {
