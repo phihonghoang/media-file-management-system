@@ -30,17 +30,14 @@ public class MediaUploadableMap {
 
     public boolean insertMUI(String uploader, MediaUploadableItem mui) {
         if (uploader == null || mui == null) {
-            System.out.println("Uploader or mui is null");
             return false;
         }
 
         if (!(map.containsKey(uploader))) {
-            System.out.println("Uploader not exist");
             return false;
         }
 
         if ((getCapacity() - mui.getSize()) < 0) {
-            System.out.println("Capacity exceeded");
             return false;
         }
 
