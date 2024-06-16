@@ -4,6 +4,7 @@ import contract.Uploader;
 import domainLogic.administration.MediaUploadableCRUD;
 import domainLogic.administration.MediaUploadableMap;
 import domainLogic.media.*;
+import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,19 +15,15 @@ import java.util.Map;
 public class CLI {
     public static void main(String[] args) {
 
-        // gucken ob parsen, wenn nicht Fehlermeldung.
-        // args ist mein element das geparst werden soll.
+        // TODO: Fehlermeldung, falls der args[0] kein long-wert ist.
+        long capacity = Long.parseLong(args[0]);
 
-        MediaUploadableMap model = new MediaUploadableMap(50);
-        ViewController vc = new ViewController(model);
+        MediaUploadableMap model = new MediaUploadableMap(capacity);
+        MediaUploadablePersistence persistence = new MediaUploadablePersistence();
+        ViewController vc = new ViewController(model, persistence);
         vc.execute();
 
-        /*
-        String media = "AudioVideo RedLetterMedia Animal 8700 3.60";
-
-        ValidInputMUI vi = new ValidInputMUI();
-        System.out.println(vi.validation(media));
-         */
+        //AudioVideo Phi Animal 10 3.60";
 
     }
 

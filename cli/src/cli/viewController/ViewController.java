@@ -6,13 +6,11 @@ import contract.Uploader;
 import domainLogic.administration.MediaUploadableCRUD;
 import domainLogic.administration.MediaUploadableMap;
 import domainLogic.media.*;
-import org.junit.jupiter.api.Tags;
+import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.logging.SocketHandler;
 
 public class ViewController {
 
@@ -20,12 +18,14 @@ public class ViewController {
     private Scanner scanner;
     private InputValidator inputValidator;
     private Mode currentMode;
+    private MediaUploadablePersistence persistence;
 
-    public ViewController(MediaUploadableMap model) {
+    public ViewController(MediaUploadableMap model, MediaUploadablePersistence persistence) {
         this.model = model;
         this.scanner = new Scanner(System.in);
         this.inputValidator = new InputValidator();
         this.currentMode = Mode.Default;
+        this.persistence = persistence;
     }
 
     public void execute() {
@@ -130,8 +130,8 @@ public class ViewController {
     }
 
     public void deleteMode(String input) {
-        //System.out.println(deleteUploader(input));
-        //System.out.println(deleteMedia(input));
+        System.out.println(deleteUploader(input));
+        System.out.println(deleteMedia(input));
     }
 
     public void displayMode(String input) {
@@ -159,9 +159,23 @@ public class ViewController {
     }
 
     public void persistenceMode(String input) {
-        System.out.println("Persistence mode:");
-        System.out.println("save [JOS|JBP]");
-        System.out.println("load [JOS|JBP]");
+        switch (input) {
+            case "save JOS":
+                save();
+                break;
+            case "load JOS":
+                load();
+                break;
+            case "save JBP":
+                System.out.println("PLACEHOLDER: save JBP");
+                break;
+            case "load JBP":
+                System.out.println("PLACEHOLDER: load JBP");
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
     }
 
     public boolean createUploader(String input) {
@@ -187,6 +201,7 @@ public class ViewController {
         return false;
     }
 
+    // TODO: Standard werte für samplingRate und resolution setzen, falls vom User nicht anders angegeben
     public boolean createMedia(String[] parts, Collection<Tag> list) {
         String mediaType = parts[0];
         Uploader uploader = new UploaderImpl(parts[1]);
@@ -308,7 +323,7 @@ public class ViewController {
         return false;
     }
 
-    // Nochmal die Ausgabe auf der Konsole ändern!
+    // TODO: Ausgabe für die vorhandenen/nicht vorhandenen Tags überarbeiten
     public boolean displayTag(Collection<MediaUploadableCRUD> mapValues, String input) {
         if (mapValues.isEmpty()) {
             System.out.println("Empty!");
@@ -363,6 +378,25 @@ public class ViewController {
 
     public boolean updateMedia(String location) {
         return model.updateMUI(location);
+    }
+
+
+    public void save() {
+        String filename = "MediaUploadable.jos";
+        persistence.save(filename, model);
+    }
+
+
+    public MediaUploadableMap load() {
+        String filename = "MediaUploadable.jos";
+
+        MediaUploadableMap mapPersistence = persistence.load(filename);
+
+        if (mapPersistence != null) {
+            model.updateItemList(mapPersistence.getMap());
+        }
+
+        return mapPersistence;
     }
 
 }

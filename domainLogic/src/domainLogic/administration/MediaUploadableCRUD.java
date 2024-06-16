@@ -3,14 +3,19 @@ package domainLogic.administration;
 import domainLogic.media.AudioImpl;
 import domainLogic.media.MediaUploadableItem;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaUploadableCRUD {
+public class MediaUploadableCRUD implements Serializable {
 
     private List<MediaUploadableItem> list;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public MediaUploadableCRUD() {
+        // TODO: Keine ArrayList
         list = new ArrayList<>();
     }
 
@@ -22,7 +27,6 @@ public class MediaUploadableCRUD {
         }
     }
 
-    // Eventuell Iterator
     public MediaUploadableItem delete(String location) {
         if (location == null || list.isEmpty()) {
             return null;

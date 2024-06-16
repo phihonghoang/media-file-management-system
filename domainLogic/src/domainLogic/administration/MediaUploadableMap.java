@@ -2,13 +2,18 @@ package domainLogic.administration;
 
 import domainLogic.media.MediaUploadableItem;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MediaUploadableMap {
+public class MediaUploadableMap implements Serializable {
 
     private Map<String, MediaUploadableCRUD> map;
     private long capacity;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public MediaUploadableMap(long capacity) {
         map = new HashMap<>();
@@ -72,11 +77,13 @@ public class MediaUploadableMap {
 
         MediaUploadableItem muiDel = null;
         for (MediaUploadableCRUD list: map.values()) {
-            muiDel = list.delete(location);
-        }
 
-        if (muiDel != null) {
-            setCapacity(getCapacity() + muiDel.getSize());
+            MediaUploadableItem temp = list.delete(location);
+            if (temp != null) {
+                muiDel = temp;
+                setCapacity(getCapacity() + muiDel.getSize());
+                break;
+            }
         }
 
         return muiDel;
@@ -93,7 +100,10 @@ public class MediaUploadableMap {
 
         boolean found = false;
         for (MediaUploadableCRUD list: map.values()) {
-            found = list.update(location);
+            if (list.update(location)) {
+                found = true;
+                break;
+            }
         }
 
         return found;
@@ -105,5 +115,10 @@ public class MediaUploadableMap {
 
     public long getCapacity() {
         return capacity;
+    }
+
+    public void updateItemList(Map<String, MediaUploadableCRUD> newMap) {
+        map.clear();
+        map.putAll(newMap);
     }
 }

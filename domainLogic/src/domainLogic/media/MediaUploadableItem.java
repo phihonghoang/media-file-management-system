@@ -5,13 +5,15 @@ import contract.Tag;
 import contract.Uploadable;
 import contract.Uploader;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class MediaUploadableItem implements MediaContent, Uploadable {
+public abstract class MediaUploadableItem implements MediaContent, Uploadable, Serializable {
     private String address;
     private Collection<Tag> tags;
     private long accessCount;
@@ -19,6 +21,8 @@ public abstract class MediaUploadableItem implements MediaContent, Uploadable {
     private Uploader uploader;
     private Duration availability;
     private BigDecimal cost;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
 
     public MediaUploadableItem(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost) {
