@@ -210,6 +210,8 @@ public class ViewController {
 
         switch (mediaType) {
             case "Audio":
+                // MUI darf die CLI nicht kenne, stattdessen die Eigenschaften übergeben - Instanz Kontrolle.
+                // Objekt erstellung im Model.
                 MediaUploadableItem audio = new AudioImpl(list, size, uploader, price, 100);
                 return model.insertMUI(audio.getUploader().getName(), audio);
 
@@ -393,10 +395,13 @@ public class ViewController {
         MediaUploadableMap mapPersistence = persistence.load(filename);
 
         if (mapPersistence != null) {
-            model.updateItemList(mapPersistence.getMap());
+            setModel(mapPersistence);
         }
 
         return mapPersistence;
     }
 
+    private void setModel(MediaUploadableMap mapPersistence) {
+        this.model = mapPersistence;
+    }
 }

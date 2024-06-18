@@ -117,8 +117,4 @@ public class MediaUploadableMap implements Serializable {
         return capacity;
     }
 
-    public void updateItemList(Map<String, MediaUploadableCRUD> newMap) {
-        map.clear();
-        map.putAll(newMap);
-    }
 }
