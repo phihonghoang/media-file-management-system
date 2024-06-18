@@ -325,7 +325,6 @@ public class ViewController {
         return false;
     }
 
-    // TODO: Ausgabe für die vorhandenen/nicht vorhandenen Tags überarbeiten
     public boolean displayTag(Collection<MediaUploadableCRUD> mapValues, String input) {
         if (mapValues.isEmpty()) {
             System.out.println("Empty!");
@@ -335,39 +334,35 @@ public class ViewController {
         String[] parts = input.trim().split(" ");
         String tagIE = parts[1];
 
-        Collection<Tag> list = filterTag(mapValues);
+        Collection<Tag> listI = filterTagI(mapValues);
 
-        if (list.isEmpty()) {
+        if (listI.isEmpty()) {
             System.out.println("Empty!");
             return false;
         }
 
+        String result;
         if (tagIE.equals("i")) {
-            for (Tag tag : list) {
-                System.out.print(tag + " ");
-            }
-            return true;
+            result = String.join(", ", listI.toString());
+        } else {
+            Collection<Tag> listE = filterTagE(listI);
+            result = String.join(", ", listE.toString());
         }
 
-        for (Tag tag : Tag.values()) {
-            if (!(list.contains(tag))) {
-                System.out.print(tag + " ");
-            }
-        }
-
+        System.out.println(result);
         return true;
     }
 
-    public Collection<Tag> filterTag(Collection<MediaUploadableCRUD> mapValues) {
-        Collection<Tag> list = new ArrayList<>();
+    public Collection<Tag> filterTagI(Collection<MediaUploadableCRUD> mapValues) {
+        Collection<Tag> listI = new LinkedList<>();
 
         for (MediaUploadableCRUD muCrud : mapValues) {
             for (MediaUploadableItem items : muCrud.getList()) {
                 for (Tag itemTag : items.getTags()) {
                     for (Tag tag : Tag.values()) {
 
-                        if (itemTag.equals(tag) && (!(list.contains(tag)))) {
-                            list.add(tag);
+                        if (itemTag.equals(tag) && (!(listI.contains(tag)))) {
+                            listI.add(tag);
                         }
 
                     }
@@ -375,7 +370,19 @@ public class ViewController {
             }
         }
 
-        return list;
+        return listI;
+    }
+
+    public Collection<Tag> filterTagE(Collection<Tag> listI) {
+        Collection<Tag> listE = new LinkedList<>();
+
+        for (Tag tag : Tag.values()) {
+            if (!(listI.contains(tag))) {
+                listE.add(tag);
+            }
+        }
+
+        return listE;
     }
 
     public boolean updateMedia(String location) {
