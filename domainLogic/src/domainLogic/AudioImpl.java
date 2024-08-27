@@ -1,13 +1,11 @@
-package domainLogic.media;
+package domainLogic;
 
 import contract.Audio;
 import contract.Tag;
 import contract.Uploader;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
 
 public class AudioImpl extends MediaUploadableItem implements Audio {
     private int samplingRate;

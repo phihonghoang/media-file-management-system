@@ -1,7 +1,4 @@
-package domainLogic.administration;
-
-import domainLogic.media.AudioImpl;
-import domainLogic.media.MediaUploadableItem;
+package domainLogic;
 
 import java.io.Serial;
 import java.io.Serializable;

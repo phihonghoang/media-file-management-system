@@ -2,11 +2,11 @@ package net;
 
 import contract.Tag;
 import contract.Uploader;
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.AudioImpl;
-import domainLogic.media.MediaUploadableItem;
-import domainLogic.media.UploaderImpl;
+import domainLogic.MediaUploadableCRUD;
+import domainLogic.MediaUploadableMap;
+import domainLogic.AudioImpl;
+import domainLogic.MediaUploadableItem;
+import domainLogic.UploaderImpl;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,7 +17,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 public class TCPServer {
 

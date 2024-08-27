@@ -1,8 +1,7 @@
-package domainLogic.administration;
+package domainLogic;
 
 import contract.Tag;
 import contract.Uploader;
-import domainLogic.media.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

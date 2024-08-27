@@ -1,11 +1,7 @@
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
+import domainLogic.MediaUploadableCRUD;
+import domainLogic.MediaUploadableMap;
 import simulation.DeleteMedia;
 import simulation.InsertMedia;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 public class Simulation1 {
     public static void main(String[] args) {

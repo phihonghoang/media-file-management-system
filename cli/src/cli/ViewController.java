@@ -1,16 +1,12 @@
-package cli.viewController;
+package cli;
 
-import cli.inputValidator.InputValidator;
 import contract.Tag;
 import contract.Uploader;
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.*;
+import domainLogic.*;
 import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.logging.SocketHandler;
 
 public class ViewController {
 

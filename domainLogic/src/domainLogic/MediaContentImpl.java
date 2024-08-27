@@ -1,4 +1,4 @@
-package domainLogic.media;
+package domainLogic;
 
 import contract.MediaContent;
 import contract.Tag;

@@ -1,4 +1,4 @@
-import domainLogic.administration.MediaUploadableMap;
+import domainLogic.MediaUploadableMap;
 import net.TCPServer;
 
 public class Server {

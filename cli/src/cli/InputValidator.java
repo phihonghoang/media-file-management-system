@@ -1,17 +1,6 @@
-package cli.inputValidator;
-
-import contract.Tag;
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.AudioImpl;
-import domainLogic.media.AudioVideoImpl;
-import domainLogic.media.MediaUploadableItem;
-import domainLogic.media.VideoImpl;
+package cli;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class InputValidator {
 

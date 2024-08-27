@@ -1,4 +1,4 @@
-package domainLogic.media;
+package domainLogic;
 
 import contract.MediaContent;
 import contract.Tag;
@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class MediaUploadableItem implements MediaContent, Uploadable, Serializable {

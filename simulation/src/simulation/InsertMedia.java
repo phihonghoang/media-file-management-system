@@ -1,10 +1,6 @@
 package simulation;
 
-import contract.Tag;
-import contract.Uploader;
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.*;
+import domainLogic.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

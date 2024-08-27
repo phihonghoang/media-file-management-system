@@ -1,9 +1,8 @@
 package simulation;
 
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.MediaUploadableItem;
+import domainLogic.MediaUploadableMap;
+import domainLogic.MediaUploadableItem;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Random;
 

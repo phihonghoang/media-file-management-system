@@ -1,6 +1,6 @@
 package io;
 
-import domainLogic.administration.MediaUploadableMap;
+import domainLogic.MediaUploadableMap;
 
 import java.io.*;
 

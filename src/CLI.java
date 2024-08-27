@@ -1,16 +1,6 @@
-import cli.viewController.ViewController;
-import contract.Tag;
-import contract.Uploader;
-import domainLogic.administration.MediaUploadableCRUD;
-import domainLogic.administration.MediaUploadableMap;
-import domainLogic.media.*;
+import cli.ViewController;
+import domainLogic.MediaUploadableMap;
 import io.MediaUploadablePersistence;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CLI {
     public static void main(String[] args) {

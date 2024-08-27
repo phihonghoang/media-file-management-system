@@ -1,11 +1,8 @@
-package domainLogic.administration;
-
-import domainLogic.media.MediaUploadableItem;
+package domainLogic;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MediaUploadableMap implements Serializable {
