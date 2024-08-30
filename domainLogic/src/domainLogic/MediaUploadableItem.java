@@ -68,7 +68,7 @@ public abstract class MediaUploadableItem implements MediaContent, Uploadable, S
         return cost;
     }
 
-    public void increaseAccessCount() {
+    void increaseAccessCount() {
         accessCount++;
     }
 }

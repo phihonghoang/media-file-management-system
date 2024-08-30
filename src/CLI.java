@@ -1,5 +1,5 @@
 import cli.ViewController;
-import domainLogic.MediaUploadableMap;
+import domainLogic.MediaUploadableAdmin;
 import io.MediaUploadablePersistence;
 
 public class CLI {
@@ -9,7 +9,7 @@ public class CLI {
         // Außen kontrollieren
         long capacity = Long.parseLong(args[0]);
 
-        MediaUploadableMap model = new MediaUploadableMap(capacity);
+        MediaUploadableAdmin model = new MediaUploadableAdmin(capacity);
         MediaUploadablePersistence persistence = new MediaUploadablePersistence();
         ViewController vc = new ViewController(model, persistence);
         vc.execute();

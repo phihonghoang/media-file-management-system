@@ -3,7 +3,7 @@ package net;
 import contract.Tag;
 import contract.Uploader;
 import domainLogic.MediaUploadableCRUD;
-import domainLogic.MediaUploadableMap;
+import domainLogic.MediaUploadableAdmin;
 import domainLogic.AudioImpl;
 import domainLogic.MediaUploadableItem;
 import domainLogic.UploaderImpl;
@@ -20,9 +20,9 @@ import java.util.Collection;
 
 public class TCPServer {
 
-    MediaUploadableMap model;
+    MediaUploadableAdmin model;
 
-    public TCPServer(MediaUploadableMap model) {
+    public TCPServer(MediaUploadableAdmin model) {
         this.model = model;
     }
 

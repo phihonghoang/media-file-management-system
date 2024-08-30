@@ -1,5 +1,5 @@
 import domainLogic.MediaUploadableCRUD;
-import domainLogic.MediaUploadableMap;
+import domainLogic.MediaUploadableAdmin;
 import simulation.DeleteMedia;
 import simulation.InsertMedia;
 
@@ -9,7 +9,7 @@ public class Simulation1 {
         // TODO: Fehlermeldung, falls der args[0] kein long-wert ist.
         long capacity = Long.parseLong(args[0]);
 
-        MediaUploadableMap model = new MediaUploadableMap(capacity);
+        MediaUploadableAdmin model = new MediaUploadableAdmin(capacity);
         model.insertUploader("Phi", new MediaUploadableCRUD());
 
         InsertMedia im = new InsertMedia(model);

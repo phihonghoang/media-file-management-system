@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class InsertMedia extends Thread{
-    private MediaUploadableMap model;
+    private MediaUploadableAdmin model;
 
-    public InsertMedia(MediaUploadableMap model) {
+    public InsertMedia(MediaUploadableAdmin model) {
         this.model = model;
     }
 

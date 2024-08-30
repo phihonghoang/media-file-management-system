@@ -10,13 +10,13 @@ import java.util.*;
 
 public class ViewController {
 
-    private MediaUploadableMap model;
+    private MediaUploadableAdmin model;
     private Scanner scanner;
     private InputValidator inputValidator;
     private Mode currentMode;
     private MediaUploadablePersistence persistence;
 
-    public ViewController(MediaUploadableMap model, MediaUploadablePersistence persistence) {
+    public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
         this.model = model;
         this.scanner = new Scanner(System.in);
         this.inputValidator = new InputValidator();
@@ -392,10 +392,10 @@ public class ViewController {
     }
 
 
-    public MediaUploadableMap load() {
+    public MediaUploadableAdmin load() {
         String filename = "MediaUploadable.jos";
 
-        MediaUploadableMap mapPersistence = persistence.load(filename);
+        MediaUploadableAdmin mapPersistence = persistence.load(filename);
 
         if (mapPersistence != null) {
             setModel(mapPersistence);
@@ -404,7 +404,7 @@ public class ViewController {
         return mapPersistence;
     }
 
-    private void setModel(MediaUploadableMap mapPersistence) {
+    private void setModel(MediaUploadableAdmin mapPersistence) {
         this.model = mapPersistence;
     }
 }

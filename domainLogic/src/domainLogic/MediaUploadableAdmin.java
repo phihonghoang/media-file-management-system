@@ -5,14 +5,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MediaUploadableMap implements Serializable {
+public class MediaUploadableAdmin implements Serializable {
 
     private Map<String, MediaUploadableCRUD> map;
     private long capacity;
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public MediaUploadableMap(long capacity) {
+    public MediaUploadableAdmin(long capacity) {
         map = new HashMap<>();
         this.capacity = capacity;
     }

@@ -1,16 +1,16 @@
 package simulation;
 
-import domainLogic.MediaUploadableMap;
+import domainLogic.MediaUploadableAdmin;
 import domainLogic.MediaUploadableItem;
 
 import java.util.List;
 import java.util.Random;
 
 public class DeleteMedia extends Thread{
-    private MediaUploadableMap model;
+    private MediaUploadableAdmin model;
     private Random random;
 
-    public DeleteMedia(MediaUploadableMap model){
+    public DeleteMedia(MediaUploadableAdmin model){
         this.model = model;
         this.random = new Random();
     }
