@@ -121,8 +121,16 @@ public class ViewController {
     }
 
     public void insertionMode(String input) {
-        System.out.println(createUploader(input));
-        System.out.println(validateMedia(input));
+        String[] parts;
+        parts = input.trim().split("\\s+");
+
+        if (inputValidator.uploaderValidation(parts)) {
+            System.out.println(createUploader(parts[0]));
+        } else if (inputValidator.mediaValidation(parts)){
+            System.out.println(validateMedia(parts));
+        } else {
+            System.out.println("Invalid input");
+        }
     }
 
     public void deleteMode(String input) {
@@ -174,49 +182,57 @@ public class ViewController {
         }
     }
 
-    public boolean createUploader(String input) {
-        String[] parts;
-        parts = input.trim().split("\\s+");
-
-        if (inputValidator.uploaderValidation(parts)) {
-            return model.insertUploader(parts[0], new MediaUploadableCRUD());
-        }
-
-        return false;
+    public boolean createUploader(String uploader) {
+        return model.insertUploader(uploader, new MediaUploadableCRUD());
     }
 
-    public boolean validateMedia(String input) {
-        String[] parts;
-        parts = input.trim().split("\\s+");
+    public boolean validateMedia(String[] parts) {
 
-        if (inputValidator.mediaValidation(parts) && inputValidator.numberFormatValidation(parts)) {
-            Collection<Tag> list = getAddedTagList(parts[2]);
-            return createMedia(parts, list);
+        if (!inputValidator.longFormatValidation(parts[3]) || !inputValidator.bigDecimalFormatValidation(parts[4])) {
+            return false;
         }
 
-        return false;
+        String mediaType = parts[0];
+        Uploader uploader = new UploaderImpl(parts[1]);
+        Collection<Tag> list = getAddedTagList(parts[2]);
+        long size = Long.parseLong(parts[3]);
+        BigDecimal price = new BigDecimal(parts[4]);
+        int sampRes1 = 1010;
+        int sampRes2 = 2020;
+
+        if (inputValidator.sampResValidation(parts, 6)) {
+            if (!inputValidator.integerFormatValidation(parts[5], "6")) {
+                return false;
+            }
+            sampRes1 = Integer.parseInt(parts[5]);
+        }
+
+        if (inputValidator.sampResValidation(parts, 7)) {
+            if (!inputValidator.integerFormatValidation(parts[6], "7")) {
+                return false;
+            }
+            sampRes2 = Integer.parseInt(parts[6]);
+        }
+
+        return createMedia(mediaType, uploader, list, size, price, sampRes1, sampRes2);
     }
 
     // TODO: Standard werte für samplingRate und resolution setzen, falls vom User nicht anders angegeben
-    public boolean createMedia(String[] parts, Collection<Tag> list) {
-        String mediaType = parts[0];
-        Uploader uploader = new UploaderImpl(parts[1]);
-        long size = Long.parseLong(parts[3]);
-        BigDecimal price = new BigDecimal(parts[4]);
+    public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size, BigDecimal price, int sampRes1, int sampRes2) {
 
         switch (mediaType) {
             case "Audio":
                 // MUI darf die CLI nicht kenne, stattdessen die Eigenschaften übergeben - Instanz Kontrolle.
                 // Objekt erstellung im Model.
-                MediaUploadableItem audio = new AudioImpl(list, size, uploader, price, 100);
+                MediaUploadableItem audio = new AudioImpl(list, size, uploader, price, sampRes1);
                 return model.insertMUI(audio.getUploader().getName(), audio);
 
             case "Video":
-                MediaUploadableItem video = new VideoImpl(list, size, uploader, price, 100);
+                MediaUploadableItem video = new VideoImpl(list, size, uploader, price, sampRes1);
                 return model.insertMUI(video.getUploader().getName(), video);
 
             case "AudioVideo":
-                MediaUploadableItem audioVideo = new AudioVideoImpl(list, size, uploader, price, 100, 100);
+                MediaUploadableItem audioVideo = new AudioVideoImpl(list, size, uploader, price, sampRes1, sampRes2);
                 return model.insertMUI(audioVideo.getUploader().getName(), audioVideo);
 
             default:

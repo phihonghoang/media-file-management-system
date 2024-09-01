@@ -12,18 +12,8 @@ public class InputValidator {
         return parts.length >= 5;
     }
 
-    public boolean numberFormatValidation(String[] parts) {
-        if (!longFormatValidation(parts[3])) {
-            System.out.println("ERROR: 4th element is not valid!");
-            return false;
-        }
-
-        if (!bigDecimalFormatValidation(parts[4])) {
-            System.out.println("ERROR: 5th element is not valid!");
-            return false;
-        }
-
-        return true;
+    public boolean sampResValidation(String[] parts, int length) {
+        return parts.length >= length;
     }
 
     public boolean longFormatValidation(String value) {
@@ -31,6 +21,7 @@ public class InputValidator {
             Long.parseLong(value);
             return true;
         } catch(NumberFormatException e) {
+            System.out.println("ERROR: 4th element is not valid!");
             return false;
         }
     }
@@ -40,6 +31,17 @@ public class InputValidator {
             new BigDecimal(value);
             return true;
         } catch(NumberFormatException e) {
+            System.out.println("ERROR: 5th element is not valid!");
+            return false;
+        }
+    }
+
+    public boolean integerFormatValidation(String value, String element) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch(NumberFormatException e) {
+            System.out.println("ERROR: " + element + "th element is not valid!");
             return false;
         }
     }
