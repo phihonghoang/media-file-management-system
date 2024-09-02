@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,11 +25,12 @@ class MediaUploadableCRUDTest {
     public void setUp() {
         Collection<Tag> tags = new ArrayList<>();
         Uploader uploader = new UploaderImpl("Phi");
+        Duration availability = Duration.ZERO;
         BigDecimal cost = new BigDecimal("500");
 
-        audio = new AudioImpl(tags, 0, uploader, cost, 500);
-        video = new VideoImpl(tags,  0, uploader, cost, 500);
-        audioVideo = new AudioVideoImpl( tags, 0, uploader, cost, 500, 500);
+        audio = new AudioImpl(tags, 0, uploader, availability, cost, 500);
+        video = new VideoImpl(tags,  0, uploader, availability, cost, 500);
+        audioVideo = new AudioVideoImpl( tags, 0, uploader, availability, cost, 500, 500);
 
         muCRUD = new MediaUploadableCRUD();
     }

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -104,7 +105,7 @@ public class TCPServer {
             Uploader uploader = new UploaderImpl("DefaultPeter");
             long size = Long.parseLong("10");
             BigDecimal price = new BigDecimal("3.60");
-            return model.insertMUI("DefaultPeter", new AudioImpl(list, size, uploader, price, 100));
+            return model.insertMUI("DefaultPeter", new AudioImpl(list, size, uploader, Duration.ZERO, price, 100));
         } else {
             return false;
         }

@@ -5,6 +5,7 @@ import contract.Tag;
 import contract.Uploader;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Collection;
 
 public class AudioVideoImpl extends MediaUploadableItem implements AudioVideo {
@@ -12,8 +13,8 @@ public class AudioVideoImpl extends MediaUploadableItem implements AudioVideo {
     private int resolution;
 
 
-    public AudioVideoImpl(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost, int sampleRate, int resolution) {
-        super(tags, size, uploader, cost);
+    public AudioVideoImpl(Collection<Tag> tags, long size, Uploader uploader, Duration availability, BigDecimal cost, int sampleRate, int resolution) {
+        super(tags, size, uploader, availability, cost);
         this.sampleRate = sampleRate;
         this.resolution = resolution;
     }

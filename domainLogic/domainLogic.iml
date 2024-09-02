@@ -26,5 +26,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" scope="TEST" name="mockito.core" level="project" />
+    <orderEntry type="module" module-name="observerPatternContract" />
   </component>
 </module>

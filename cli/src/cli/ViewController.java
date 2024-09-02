@@ -6,6 +6,8 @@ import domainLogic.*;
 import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.*;
 
 public class ViewController {
@@ -199,6 +201,7 @@ public class ViewController {
         BigDecimal price = new BigDecimal(parts[4]);
         int sampRes1 = 1010;
         int sampRes2 = 2020;
+        Duration availability = Duration.ZERO;
 
         if (inputValidator.sampResValidation(parts, 6)) {
             if (!inputValidator.integerFormatValidation(parts[5], "6")) {
@@ -214,25 +217,25 @@ public class ViewController {
             sampRes2 = Integer.parseInt(parts[6]);
         }
 
-        return createMedia(mediaType, uploader, list, size, price, sampRes1, sampRes2);
+        return createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
     }
 
     // TODO: Standard werte für samplingRate und resolution setzen, falls vom User nicht anders angegeben
-    public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size, BigDecimal price, int sampRes1, int sampRes2) {
+    public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
 
         switch (mediaType) {
             case "Audio":
                 // MUI darf die CLI nicht kenne, stattdessen die Eigenschaften übergeben - Instanz Kontrolle.
                 // Objekt erstellung im Model.
-                MediaUploadableItem audio = new AudioImpl(list, size, uploader, price, sampRes1);
+                MediaUploadableItem audio = new AudioImpl(list, size, uploader, availability, price, sampRes1);
                 return model.insertMUI(audio.getUploader().getName(), audio);
 
             case "Video":
-                MediaUploadableItem video = new VideoImpl(list, size, uploader, price, sampRes1);
+                MediaUploadableItem video = new VideoImpl(list, size, uploader, availability, price, sampRes1);
                 return model.insertMUI(video.getUploader().getName(), video);
 
             case "AudioVideo":
-                MediaUploadableItem audioVideo = new AudioVideoImpl(list, size, uploader, price, sampRes1, sampRes2);
+                MediaUploadableItem audioVideo = new AudioVideoImpl(list, size, uploader, availability, price, sampRes1, sampRes2);
                 return model.insertMUI(audioVideo.getUploader().getName(), audioVideo);
 
             default:
@@ -297,7 +300,7 @@ public class ViewController {
         }
 
         for (MediaUploadableItem item : list) {
-            System.out.println(mediaType + ", Abrufadresse: " + item.getAddress() + ", Abrufe: " + item.getAccessCount());
+            System.out.println(mediaType + ", Abrufadresse: "  + item.getAddress() +  ", Verfuegbarkeit: " + item.getAvailability().plus(updateDuration(item.getUploadTime())).getSeconds() + " Sekunden, Abrufe: " + item.getAccessCount());
         }
         return true;
     }
@@ -338,20 +341,10 @@ public class ViewController {
     }
 
     public boolean displayTag(Collection<MediaUploadableCRUD> mapValues, String input) {
-        if (mapValues.isEmpty()) {
-            System.out.println("Empty!");
-            return false;
-        }
-
         String[] parts = input.trim().split(" ");
         String tagIE = parts[1];
 
         Collection<Tag> listI = filterTagI(mapValues);
-
-        if (listI.isEmpty()) {
-            System.out.println("Empty!");
-            return false;
-        }
 
         String result;
         if (tagIE.equals("i")) {
@@ -399,6 +392,12 @@ public class ViewController {
 
     public boolean updateMedia(String location) {
         return model.updateMUI(location);
+    }
+
+    public Duration updateDuration(LocalTime uploadTime) {
+        LocalTime now = LocalTime.now();
+
+        return Duration.between(uploadTime, now);
     }
 
 

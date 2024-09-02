@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -20,17 +21,20 @@ public abstract class MediaUploadableItem implements MediaContent, Uploadable, S
     private Uploader uploader;
     private Duration availability;
     private BigDecimal cost;
+    private LocalTime uploadTime;
     @Serial
     private static final long serialVersionUID = 1L;
 
 
-    public MediaUploadableItem(Collection<Tag> tags, long size, Uploader uploader, BigDecimal cost) {
+    public MediaUploadableItem(Collection<Tag> tags, long size, Uploader uploader,Duration availability, BigDecimal cost) {
         this.address = UUID.randomUUID().toString();
         this.tags = tags;
         this.accessCount = 0;
         this.size = size;
         this.uploader = uploader;
+        this.availability = availability;
         this.cost = cost;
+        this.uploadTime = LocalTime.now();
     }
 
     @Override
@@ -66,6 +70,10 @@ public abstract class MediaUploadableItem implements MediaContent, Uploadable, S
     @Override
     public BigDecimal getCost() {
         return cost;
+    }
+
+    public LocalTime getUploadTime() {
+        return uploadTime;
     }
 
     void increaseAccessCount() {
