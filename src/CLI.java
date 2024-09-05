@@ -2,9 +2,6 @@ import cli.ViewController;
 import domainLogic.MediaUploadableAdmin;
 import io.MediaUploadablePersistence;
 
-import java.time.Duration;
-import java.time.LocalTime;
-
 public class CLI {
     public static void main(String[] args) throws InterruptedException {
 

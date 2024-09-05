@@ -188,6 +188,7 @@ public class ViewController {
         return model.insertUploader(uploader, new MediaUploadableCRUD());
     }
 
+    // TODO: Wenn die Zahlen negativ sind, Fehlermeldung zurückgeben lassen.
     public boolean validateMedia(String[] parts) {
 
         if (!inputValidator.longFormatValidation(parts[3]) || !inputValidator.bigDecimalFormatValidation(parts[4])) {

@@ -1,20 +1,29 @@
 package domainLogic;
 
+import observerPatternContract.Observer;
+import observerPatternContract.Subject;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class MediaUploadableAdmin implements Serializable {
+public class MediaUploadableAdmin implements Subject, Serializable {
 
     private Map<String, MediaUploadableCRUD> map;
-    private long capacity;
+    private long maxCapacity;
+    private long currentCapacity;
     @Serial
     private static final long serialVersionUID = 1L;
+    private List<Observer> observerList;
 
-    public MediaUploadableAdmin(long capacity) {
+    public MediaUploadableAdmin(long maxCapacity) {
         map = new HashMap<>();
-        this.capacity = capacity;
+        this.maxCapacity = maxCapacity;
+        currentCapacity = 0;
+        observerList = new LinkedList<>();
     }
 
     public boolean insertUploader(String uploader, MediaUploadableCRUD crud) {
@@ -39,11 +48,11 @@ public class MediaUploadableAdmin implements Serializable {
             return false;
         }
 
-        if ((getCapacity() - mui.getSize()) < 0) {
+        if ((getMaxCapacity() - (getCurrentCapacity() + mui.getSize())) < 0) {
             return false;
         }
 
-        setCapacity(getCapacity() - mui.getSize());
+        setCurrentCapacity(getCurrentCapacity() + mui.getSize());
         map.get(uploader).insert(mui);
         return true;
     }
@@ -57,12 +66,7 @@ public class MediaUploadableAdmin implements Serializable {
             return false;
         }
 
-        long totalUploaderSize = 0;
-        for (MediaUploadableItem items : map.get(uploader).getList()) {
-            totalUploaderSize += items.getSize();
-        }
-
-        setCapacity(getCapacity() + totalUploaderSize);
+        setCurrentCapacity(0);
         map.remove(uploader);
         return true;
     }
@@ -78,7 +82,7 @@ public class MediaUploadableAdmin implements Serializable {
             MediaUploadableItem temp = list.delete(location);
             if (temp != null) {
                 muiDel = temp;
-                setCapacity(getCapacity() + muiDel.getSize());
+                setCurrentCapacity(getCurrentCapacity() - muiDel.getSize());
                 break;
             }
         }
@@ -106,12 +110,30 @@ public class MediaUploadableAdmin implements Serializable {
         return found;
     }
 
-    private void setCapacity(long capacity) {
-        this.capacity = capacity;
+    public long getMaxCapacity() {
+        return maxCapacity;
     }
 
-    public long getCapacity() {
-        return capacity;
+    private void setCurrentCapacity(long currentCapacity) {
+        this.currentCapacity = currentCapacity;
     }
 
+    public long getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        this.observerList.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        this.observerList.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        this.observerList.forEach(Observer::update);
+    }
 }
