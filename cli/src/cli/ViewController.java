@@ -345,50 +345,42 @@ public class ViewController {
         String[] parts = input.trim().split(" ");
         String tagIE = parts[1];
 
-        Collection<Tag> listI = filterTagI(mapValues);
+        Set<Tag> currentTags = filterTagI(mapValues);
 
         String result;
         if (tagIE.equals("i")) {
-            result = String.join(", ", listI.toString());
+            result = String.join(", ", currentTags.toString());
         } else {
-            Collection<Tag> listE = filterTagE(listI);
-            result = String.join(", ", listE.toString());
+            Set<Tag> unusedTags = filterTagE(currentTags);
+            result = String.join(", ", unusedTags.toString());
         }
 
         System.out.println(result);
         return true;
     }
 
-    public Collection<Tag> filterTagI(Collection<MediaUploadableCRUD> mapValues) {
-        Collection<Tag> listI = new LinkedList<>();
+    public Set<Tag> filterTagI(Collection<MediaUploadableCRUD> mapValues) {
+        Set<Tag> currentTags = new HashSet<>();
 
         for (MediaUploadableCRUD muCrud : mapValues) {
             for (MediaUploadableItem items : muCrud.getList()) {
-                for (Tag itemTag : items.getTags()) {
-                    for (Tag tag : Tag.values()) {
-
-                        if (itemTag.equals(tag) && (!(listI.contains(tag)))) {
-                            listI.add(tag);
-                        }
-
-                    }
-                }
+                currentTags.addAll(items.getTags());
             }
         }
 
-        return listI;
+        return currentTags;
     }
 
-    public Collection<Tag> filterTagE(Collection<Tag> listI) {
-        Collection<Tag> listE = new LinkedList<>();
+    public Set<Tag> filterTagE(Collection<Tag> currentTags) {
+        Set<Tag> unusedTags = new HashSet<>();
 
         for (Tag tag : Tag.values()) {
-            if (!(listI.contains(tag))) {
-                listE.add(tag);
+            if (!(currentTags.contains(tag))) {
+                unusedTags.add(tag);
             }
         }
 
-        return listE;
+        return unusedTags;
     }
 
     public boolean updateMedia(String location) {

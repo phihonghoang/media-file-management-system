@@ -14,5 +14,6 @@
     <orderEntry type="module" module-name="io" />
     <orderEntry type="module" module-name="net" />
     <orderEntry type="module" module-name="observerPatternContract" />
+    <orderEntry type="module" module-name="observerPattern" />
   </component>
 </module>

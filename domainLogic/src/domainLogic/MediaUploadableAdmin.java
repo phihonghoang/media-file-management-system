@@ -54,6 +54,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
 
         setCurrentCapacity(getCurrentCapacity() + mui.getSize());
         map.get(uploader).insert(mui);
+        notifyObservers();
         return true;
     }
 
@@ -87,6 +88,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
             }
         }
 
+        notifyObservers();
         return muiDel;
     }
 
