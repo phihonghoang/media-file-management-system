@@ -1,6 +1,9 @@
 package cli;
 
+import contract.Tag;
+
 import java.math.BigDecimal;
+import java.util.Collection;
 
 public class InputValidator {
 
@@ -43,6 +46,33 @@ public class InputValidator {
         } catch(NumberFormatException e) {
             System.out.println("ERROR: " + element + "th element is not valid!");
             return false;
+        }
+    }
+
+    public boolean longPositivValidation(String value) {
+        if (Long.parseLong(value) < 0) {
+            System.out.println("ERROR: 4th element is not valid!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean bigDecimalPositivValidation(String value) {
+        if (new BigDecimal(value).compareTo(new BigDecimal("0")) < 0) {
+            System.out.println("ERROR: 5th element is not valid!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean integerPositivValidation(String value, String element) {
+        if (Integer.parseInt(value) < 0) {
+            System.out.println("ERROR: " + element + "th element is not valid!");
+            return false;
+        } else {
+            return true;
         }
     }
 

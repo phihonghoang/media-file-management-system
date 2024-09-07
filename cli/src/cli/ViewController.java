@@ -188,10 +188,11 @@ public class ViewController {
         return model.insertUploader(uploader, new MediaUploadableCRUD());
     }
 
-    // TODO: Wenn die Zahlen negativ sind, Fehlermeldung zurückgeben lassen.
+    // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
     public boolean validateMedia(String[] parts) {
 
-        if (!inputValidator.longFormatValidation(parts[3]) || !inputValidator.bigDecimalFormatValidation(parts[4])) {
+        if (!inputValidator.longFormatValidation(parts[3]) || !inputValidator.bigDecimalFormatValidation(parts[4])
+                || !inputValidator.longPositivValidation(parts[3]) || !inputValidator.bigDecimalPositivValidation(parts[4])) {
             return false;
         }
 
@@ -205,23 +206,24 @@ public class ViewController {
         Duration availability = Duration.ZERO;
 
         if (inputValidator.sampResValidation(parts, 6)) {
-            if (!inputValidator.integerFormatValidation(parts[5], "6")) {
+            if (!inputValidator.integerFormatValidation(parts[5], "6") || !inputValidator.integerPositivValidation(parts[5], "6")) {
                 return false;
             }
+
             sampRes1 = Integer.parseInt(parts[5]);
         }
 
         if (inputValidator.sampResValidation(parts, 7)) {
-            if (!inputValidator.integerFormatValidation(parts[6], "7")) {
+            if (!inputValidator.integerFormatValidation(parts[6], "7") || !inputValidator.integerPositivValidation(parts[6], "7")) {
                 return false;
             }
+
             sampRes2 = Integer.parseInt(parts[6]);
         }
 
         return createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
     }
 
-    // TODO: Standard werte für samplingRate und resolution setzen, falls vom User nicht anders angegeben
     public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
 
         switch (mediaType) {
@@ -240,6 +242,7 @@ public class ViewController {
                 return model.insertMUI(audioVideo.getUploader().getName(), audioVideo);
 
             default:
+                System.out.println("Media type not supported.");
                 return false;
         }
     }
