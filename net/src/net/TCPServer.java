@@ -18,6 +18,7 @@ import java.net.Socket;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class TCPServer {
 
@@ -99,13 +100,9 @@ public class TCPServer {
 
     public boolean insert(String input) {
         if (input.equals("uploader")) {
-            return model.insertUploader("DefaultPeter", new MediaUploadableCRUD());
+            return model.insertUploader("DefaultPeter");
         } else if (input.equals("audio")) {
-            Collection<Tag> list = new ArrayList<>();
-            Uploader uploader = new UploaderImpl("DefaultPeter");
-            long size = Long.parseLong("10");
-            BigDecimal price = new BigDecimal("3.60");
-            return model.insertMUI("DefaultPeter", new AudioImpl(list, size, uploader, Duration.ZERO, price, 100));
+            return model.insertMUI("Audio",new UploaderImpl("DefaultPeter"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
         } else {
             return false;
         }

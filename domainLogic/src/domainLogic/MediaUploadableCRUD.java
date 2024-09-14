@@ -2,7 +2,7 @@ package domainLogic;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MediaUploadableCRUD implements Serializable {
@@ -12,8 +12,7 @@ public class MediaUploadableCRUD implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public MediaUploadableCRUD() {
-        // TODO: Keine ArrayList
-        list = new ArrayList<>();
+        list = new LinkedList<>();
     }
 
     public boolean insert(MediaUploadableItem mui) {
@@ -41,7 +40,7 @@ public class MediaUploadableCRUD implements Serializable {
     }
 
     public List<MediaUploadableItem> getList() {
-        return new ArrayList<>(list);
+        return new LinkedList<>(list);
     }
 
     public boolean update(String location) {

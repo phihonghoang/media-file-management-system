@@ -1,10 +1,14 @@
 package simulation;
 
+import contract.Tag;
+import contract.Uploader;
 import domainLogic.*;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class InsertMedia extends Thread{
@@ -18,29 +22,28 @@ public class InsertMedia extends Thread{
 
         while (true) {
             synchronized(model){
-                boolean res = model.insertMUI("Phi", createRandomMedia());
-                System.out.println("Create media: " + res);
+                System.out.println("Create media: " + createRandomMedia());
             }
         }
     }
 
-    public MediaUploadableItem createRandomMedia() {
+    public boolean createRandomMedia() {
         Random random = new Random();
 
         int number = random.nextInt((3-1)+1);
 
         switch (number) {
             case 0:
-                return  new AudioImpl(new ArrayList<>(), 1, new UploaderImpl("Phi"), Duration.ZERO,new BigDecimal("100"), 500);
+                return model.insertMUI("Audio",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
 
             case 1:
-                return new VideoImpl(new ArrayList<>(),  1, new UploaderImpl("Phi"), Duration.ZERO,new BigDecimal("100"), 500);
+                return model.insertMUI("Video",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
 
             case 2:
-                return new AudioVideoImpl(new ArrayList<>(), 1, new UploaderImpl("Phi"), Duration.ZERO,new BigDecimal("100"), 500, 500);
+                return model.insertMUI("AudioVideo",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
 
         }
-        return null;
+        return false;
     }
 
 }

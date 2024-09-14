@@ -10,7 +10,7 @@ public class Simulation1 {
         long capacity = Long.parseLong(args[0]);
 
         MediaUploadableAdmin model = new MediaUploadableAdmin(capacity);
-        model.insertUploader("Phi", new MediaUploadableCRUD());
+        model.insertUploader("Phi");
 
         InsertMedia im = new InsertMedia(model);
         DeleteMedia dm = new DeleteMedia(model);

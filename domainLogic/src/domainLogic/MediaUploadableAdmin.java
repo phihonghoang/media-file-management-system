@@ -1,14 +1,15 @@
 package domainLogic;
 
+import contract.Tag;
+import contract.Uploader;
 import observerPatternContract.Observer;
 import observerPatternContract.Subject;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.*;
 
 public class MediaUploadableAdmin implements Subject, Serializable {
 
@@ -26,8 +27,8 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         observerList = new LinkedList<>();
     }
 
-    public boolean insertUploader(String uploader, MediaUploadableCRUD crud) {
-        if (uploader == null || crud == null) {
+    public boolean insertUploader(String uploader) {
+        if (uploader == null) {
             return false;
         }
 
@@ -35,25 +36,43 @@ public class MediaUploadableAdmin implements Subject, Serializable {
             return false;
         }
 
-        map.put(uploader, crud);
+        map.put(uploader, new MediaUploadableCRUD());
         return true;
     }
 
-    public boolean insertMUI(String uploader, MediaUploadableItem mui) {
-        if (uploader == null || mui == null) {
+    public boolean insertMUI(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+        if (uploader == null) {
             return false;
         }
 
-        if (!(map.containsKey(uploader))) {
+        if (!(map.containsKey(uploader.getName()))) {
             return false;
         }
 
-        if ((getMaxCapacity() - (getCurrentCapacity() + mui.getSize())) < 0) {
+        if ((getMaxCapacity() - (getCurrentCapacity() + size)) < 0) {
             return false;
         }
 
-        setCurrentCapacity(getCurrentCapacity() + mui.getSize());
-        map.get(uploader).insert(mui);
+        setCurrentCapacity(getCurrentCapacity() + size);
+
+        MediaUploadableItem mui;
+
+        //TODO: Eventuell prüfung der MedienDateien hier verlagern.
+        switch (mediaType) {
+            case "Audio":
+                mui = new AudioImpl(list, size, uploader, availability, price, sampRes1);
+                break;
+            case "Video":
+                mui = new VideoImpl(list, size, uploader, availability, price, sampRes1);
+                break;
+            case "AudioVideo":
+                mui  = new AudioVideoImpl(list, size, uploader, availability, price, sampRes1, sampRes2);
+                break;
+            default:
+                return false;
+        }
+
+        map.get(uploader.getName()).insert(mui);
         notifyObservers();
         return true;
     }
@@ -69,6 +88,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
 
         setCurrentCapacity(0);
         map.remove(uploader);
+        notifyObservers();
         return true;
     }
 

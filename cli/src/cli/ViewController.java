@@ -185,7 +185,7 @@ public class ViewController {
     }
 
     public boolean createUploader(String uploader) {
-        return model.insertUploader(uploader, new MediaUploadableCRUD());
+        return model.insertUploader(uploader);
     }
 
     // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
@@ -226,32 +226,20 @@ public class ViewController {
 
     public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
 
-        switch (mediaType) {
-            case "Audio":
-                // MUI darf die CLI nicht kenne, stattdessen die Eigenschaften übergeben - Instanz Kontrolle.
-                // Objekt erstellung im Model.
-                MediaUploadableItem audio = new AudioImpl(list, size, uploader, availability, price, sampRes1);
-                return model.insertMUI(audio.getUploader().getName(), audio);
-
-            case "Video":
-                MediaUploadableItem video = new VideoImpl(list, size, uploader, availability, price, sampRes1);
-                return model.insertMUI(video.getUploader().getName(), video);
-
-            case "AudioVideo":
-                MediaUploadableItem audioVideo = new AudioVideoImpl(list, size, uploader, availability, price, sampRes1, sampRes2);
-                return model.insertMUI(audioVideo.getUploader().getName(), audioVideo);
-
-            default:
-                System.out.println("Media type not supported.");
-                return false;
+        if (model.insertMUI(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2)) {
+            return true;
+        } else {
+            System.out.println("Mediatype not supported!");
+            return false;
         }
     }
 
+    // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
     public Collection<Tag> getAddedTagList(String input) {
         String[] parts;
         parts = input.split(",");
 
-        Collection<Tag> list = new ArrayList<>();
+        Collection<Tag> list = new LinkedList<>();
 
         for (String part : parts) {
             for (Tag tag : Tag.values()) {
@@ -310,7 +298,7 @@ public class ViewController {
     }
 
     public List<MediaUploadableItem> filterMediaType(Collection<MediaUploadableCRUD> mapValues, String mediaType) {
-        List<MediaUploadableItem> list = new ArrayList<>();
+        List<MediaUploadableItem> list = new LinkedList<>();
 
         for (MediaUploadableCRUD muCrud : mapValues) {
             for (MediaUploadableItem items : muCrud.getList()) {
