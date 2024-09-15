@@ -5,7 +5,7 @@ import eventSystem.infrastructure.EventListener;
 import eventSystem.infrastructure.InsertUploaderEvent;
 
 public class InsertUploaderListener implements EventListener<InsertUploaderEvent> {
-    MediaUploadableAdmin model;
+    private MediaUploadableAdmin model;
 
     public InsertUploaderListener(MediaUploadableAdmin model) {
         this.model = model;
@@ -13,6 +13,6 @@ public class InsertUploaderListener implements EventListener<InsertUploaderEvent
 
     @Override
     public void onEvent(InsertUploaderEvent event) {
-
+        this.model.insertUploader(event.getUploader());
     }
 }

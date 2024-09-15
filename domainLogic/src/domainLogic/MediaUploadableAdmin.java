@@ -40,7 +40,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public boolean insertMUI(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+    public boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
         if (uploader == null) {
             return false;
         }

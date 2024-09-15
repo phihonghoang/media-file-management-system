@@ -3,6 +3,9 @@ package cli;
 import contract.Tag;
 import contract.Uploader;
 import domainLogic.*;
+import eventSystem.infrastructure.EventHandler;
+import eventSystem.infrastructure.InsertMuiEvent;
+import eventSystem.infrastructure.InsertUploaderEvent;
 import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
@@ -17,6 +20,8 @@ public class ViewController {
     private InputValidator inputValidator;
     private Mode currentMode;
     private MediaUploadablePersistence persistence;
+    private EventHandler<InsertUploaderEvent> insertUploaderHandler;
+    private EventHandler<InsertMuiEvent> insertMuiHandler;
 
     public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
         this.model = model;
@@ -24,6 +29,14 @@ public class ViewController {
         this.inputValidator = new InputValidator();
         this.currentMode = Mode.Default;
         this.persistence = persistence;
+    }
+
+    public void setInsertUploaderHandler(EventHandler<InsertUploaderEvent> insertUploaderHandler) {
+        this.insertUploaderHandler = insertUploaderHandler;
+    }
+
+    public void setInsertMuiHandler(EventHandler<InsertMuiEvent> insertMuiHandler) {
+        this.insertMuiHandler = insertMuiHandler;
     }
 
     public void execute() {
@@ -127,7 +140,7 @@ public class ViewController {
         parts = input.trim().split("\\s+");
 
         if (inputValidator.uploaderValidation(parts)) {
-            System.out.println(createUploader(parts[0]));
+            createUploader(parts[0]);
         } else if (inputValidator.mediaValidation(parts)){
             System.out.println(validateMedia(parts));
         } else {
@@ -184,8 +197,10 @@ public class ViewController {
         }
     }
 
-    public boolean createUploader(String uploader) {
-        return model.insertUploader(uploader);
+    public void createUploader(String uploader) {
+
+        InsertUploaderEvent insertUploaderEvent = new InsertUploaderEvent(this, uploader);
+        insertUploaderHandler.handle(insertUploaderEvent);
     }
 
     // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
@@ -221,17 +236,14 @@ public class ViewController {
             sampRes2 = Integer.parseInt(parts[6]);
         }
 
-        return createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
+        createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
+        return true;
     }
 
-    public boolean createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+    public void createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
 
-        if (model.insertMUI(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2)) {
-            return true;
-        } else {
-            System.out.println("Mediatype not supported!");
-            return false;
-        }
+        InsertMuiEvent insertMuiEvent = new InsertMuiEvent(this, mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
+        insertMuiHandler.handle(insertMuiEvent);
     }
 
     // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
