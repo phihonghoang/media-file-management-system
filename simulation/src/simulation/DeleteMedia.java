@@ -22,7 +22,7 @@ public class DeleteMedia extends Thread{
                 if (getRandomAddress() == null) {
                     System.out.println("Delete failed");
                 } else {
-                    MediaUploadableItem muiDel = model.deleteMUI(getRandomAddress());
+                    MediaUploadableItem muiDel = model.deleteMui(getRandomAddress());
                     System.out.println("Delete successful: " + muiDel.getAddress());
                 }
             }

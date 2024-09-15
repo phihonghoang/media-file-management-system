@@ -77,6 +77,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
+    // TODO: Observer nochmal anschauen, wenn Uploader gelöscht keine Benachrichtigung von gelöschten Tags
     public boolean deleteUploader(String uploader) {
         if (uploader == null || map.isEmpty()) {
             return false;
@@ -92,7 +93,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public MediaUploadableItem deleteMUI(String location) {
+    public MediaUploadableItem deleteMui(String location) {
         if (location == null || map.isEmpty()) {
             return null;
         }

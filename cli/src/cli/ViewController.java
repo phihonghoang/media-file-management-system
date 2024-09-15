@@ -3,9 +3,7 @@ package cli;
 import contract.Tag;
 import contract.Uploader;
 import domainLogic.*;
-import eventSystem.infrastructure.EventHandler;
-import eventSystem.infrastructure.InsertMuiEvent;
-import eventSystem.infrastructure.InsertUploaderEvent;
+import eventSystem.infrastructure.*;
 import io.MediaUploadablePersistence;
 
 import java.math.BigDecimal;
@@ -22,6 +20,8 @@ public class ViewController {
     private MediaUploadablePersistence persistence;
     private EventHandler<InsertUploaderEvent> insertUploaderHandler;
     private EventHandler<InsertMuiEvent> insertMuiHandler;
+    private EventHandler<DeleteUploaderEvent> deleteUploaderHandler;
+    private EventHandler<DeleteMuiEvent> deleteMuiHandler;
 
     public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
         this.model = model;
@@ -37,6 +37,14 @@ public class ViewController {
 
     public void setInsertMuiHandler(EventHandler<InsertMuiEvent> insertMuiHandler) {
         this.insertMuiHandler = insertMuiHandler;
+    }
+
+    public void setDeleteUploaderHandler(EventHandler<DeleteUploaderEvent> deleteUploaderHandler) {
+        this.deleteUploaderHandler = deleteUploaderHandler;
+    }
+
+    public void setDeleteMuiHandler(EventHandler<DeleteMuiEvent> deleteMuiHandler) {
+        this.deleteMuiHandler = deleteMuiHandler;
     }
 
     public void execute() {
@@ -149,8 +157,8 @@ public class ViewController {
     }
 
     public void deleteMode(String input) {
-        System.out.println(deleteUploader(input));
-        System.out.println(deleteMedia(input));
+        deleteUploader(input);
+        deleteMedia(input);
     }
 
     public void displayMode(String input) {
@@ -267,12 +275,16 @@ public class ViewController {
         return list;
     }
 
-    public boolean deleteUploader(String uploader) {
-        return model.deleteUploader(uploader);
+    public void deleteUploader(String uploader) {
+
+        DeleteUploaderEvent deleteUploaderEvent = new DeleteUploaderEvent(this, uploader);
+        deleteUploaderHandler.handle(deleteUploaderEvent);
     }
 
-    public MediaUploadableItem deleteMedia(String location) {
-        return model.deleteMUI(location);
+    public void deleteMedia(String location) {
+
+        DeleteMuiEvent deleteMuiEvent = new DeleteMuiEvent(this, location);
+        deleteMuiHandler.handle(deleteMuiEvent);
     }
 
     public boolean displayUploader() {

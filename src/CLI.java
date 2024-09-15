@@ -1,8 +1,8 @@
 import cli.ViewController;
 import domainLogic.MediaUploadableAdmin;
-import eventSystem.infrastructure.EventHandler;
-import eventSystem.infrastructure.InsertMuiEvent;
-import eventSystem.infrastructure.InsertUploaderEvent;
+import eventSystem.infrastructure.*;
+import eventSystem.listener.DeleteMuiListener;
+import eventSystem.listener.DeleteUploaderListener;
 import eventSystem.listener.InsertMuiListener;
 import eventSystem.listener.InsertUploaderListener;
 import io.MediaUploadablePersistence;
@@ -33,14 +33,24 @@ public class CLI {
         InsertMuiListener insertMuiListener = new InsertMuiListener(model);
         insertMuiHandler.add(insertMuiListener);
 
+        EventHandler<DeleteUploaderEvent> deleteUploaderHandler = new EventHandler<>();
+        DeleteUploaderListener deleteUploaderListener = new DeleteUploaderListener(model);
+        deleteUploaderHandler.add(deleteUploaderListener);
+
+        EventHandler<DeleteMuiEvent> deleteMuiHandler = new EventHandler<>();
+        DeleteMuiListener deleteMuiListener = new DeleteMuiListener(model);
+        deleteMuiHandler.add(deleteMuiListener);
+
         MediaUploadablePersistence persistence = new MediaUploadablePersistence();
         ViewController vc = new ViewController(model, persistence);
 
         vc.setInsertUploaderHandler(insertUploaderHandler);
         vc.setInsertMuiHandler(insertMuiHandler);
+        vc.setDeleteUploaderHandler(deleteUploaderHandler);
+        vc.setDeleteMuiHandler(deleteMuiHandler);
         vc.execute();
 
-        //AudioVideo Phi Animal 10 3.60;
+        //AudioVideo Phi Animal 10 3.60
 
     }
 
