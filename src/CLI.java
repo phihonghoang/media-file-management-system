@@ -46,6 +46,14 @@ public class CLI {
         DisplayUploaderListener displayUploaderListener = new DisplayUploaderListener(model);
         displayUploaderHandler.add(displayUploaderListener);
 
+        EventHandler<DisplayContentEvent> displayContentHandler = new EventHandler<>();
+        DisplayContentListener displayContentListener = new DisplayContentListener(model);
+        displayContentHandler.add(displayContentListener);
+
+        EventHandler<DisplayTagEvent> displayTagHandler = new EventHandler<>();
+        DisplayTagListener displayTagListener = new DisplayTagListener(model);
+        displayTagHandler.add(displayTagListener);
+
         MediaUploadablePersistence persistence = new MediaUploadablePersistence();
         ViewController vc = new ViewController(model, persistence);
 
@@ -55,6 +63,8 @@ public class CLI {
         vc.setDeleteMuiHandler(deleteMuiHandler);
         vc.setUpdateMuiHandler(updateMuiHandler);
         vc.setDisplayUploaderHandler(displayUploaderHandler);
+        vc.setDisplayContentHandler(displayContentHandler);
+        vc.setDisplayTagHandler(displayTagHandler);
         vc.execute();
 
         //AudioVideo Phi Animal 10 3.60

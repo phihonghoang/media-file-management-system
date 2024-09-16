@@ -24,6 +24,8 @@ public class ViewController {
     private EventHandler<DeleteMuiEvent> deleteMuiHandler;
     private EventHandler<UpdateMuiEvent> updateMuiHandler;
     private EventHandler<DisplayUploaderEvent> displayUploaderHandler;
+    private EventHandler<DisplayContentEvent> displayContentHandler;
+    private EventHandler<DisplayTagEvent> displayTagHandler;
 
     public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
         this.model = model;
@@ -55,6 +57,14 @@ public class ViewController {
 
     public void setDisplayUploaderHandler(EventHandler<DisplayUploaderEvent> displayUploaderHandler) {
         this.displayUploaderHandler = displayUploaderHandler;
+    }
+
+    public void setDisplayContentHandler(EventHandler<DisplayContentEvent> displayContentHandler) {
+        this.displayContentHandler = displayContentHandler;
+    }
+
+    public void setDisplayTagHandler(EventHandler<DisplayTagEvent> displayTagHandler) {
+        this.displayTagHandler = displayTagHandler;
     }
 
     public void execute() {
@@ -178,11 +188,11 @@ public class ViewController {
                 break;
 
             case "content Audio", "content Video", "content AudioVideo":
-                displayContent(model.getMap().values(), input);
+                displayContent(input);
                 break;
 
             case "tag i", "tag e":
-                displayTag(model.getMap().values(), input);
+                displayTag(input);
                 break;
 
             default:
@@ -303,115 +313,26 @@ public class ViewController {
         displayUploaderHandler.handle(displayUploaderEvent);
     }
 
-    public boolean  displayContent(Collection<MediaUploadableCRUD> mapValues, String input) {
-        if (mapValues.isEmpty()) {
-            System.out.println("Empty!");
-            return false;
-        }
-
+    public void  displayContent(String input) {
         String[] parts = input.trim().split(" ");
         String mediaType = parts[1];
 
-        List<MediaUploadableItem> list = filterMediaType(mapValues, mediaType);
-
-        if (list.isEmpty()) {
-            System.out.println("Empty!");
-            return false;
-        }
-
-        for (MediaUploadableItem item : list) {
-            System.out.println(mediaType + ", Abrufadresse: "  + item.getAddress() +  ", Verfuegbarkeit: " + item.getAvailability().plus(updateDuration(item.getUploadTime())).getSeconds() + " Sekunden, Abrufe: " + item.getAccessCount());
-        }
-        return true;
+        DisplayContentEvent displayContentEvent = new DisplayContentEvent(this, mediaType);
+        displayContentHandler.handle(displayContentEvent);
     }
 
-    public List<MediaUploadableItem> filterMediaType(Collection<MediaUploadableCRUD> mapValues, String mediaType) {
-        List<MediaUploadableItem> list = new LinkedList<>();
-
-        for (MediaUploadableCRUD muCrud : mapValues) {
-            for (MediaUploadableItem items : muCrud.getList()) {
-                if (validateMediaType(items, mediaType)) {
-                    list.add(items);
-                }
-            }
-        }
-
-        return list;
-    }
-
-    public boolean validateMediaType(MediaUploadableItem items, String mediaType) {
-        switch (mediaType) {
-            case "Audio":
-                if (items instanceof AudioImpl) {
-                    return true;
-                }
-                break;
-            case "Video":
-                if (items instanceof VideoImpl) {
-                    return true;
-                }
-                break;
-            case "AudioVideo":
-                if (items instanceof AudioVideoImpl) {
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-    public boolean displayTag(Collection<MediaUploadableCRUD> mapValues, String input) {
+    public void displayTag(String input) {
         String[] parts = input.trim().split(" ");
         String tagIE = parts[1];
 
-        Set<Tag> currentTags = filterTagI(mapValues);
-
-        String result;
-        if (tagIE.equals("i")) {
-            result = String.join(", ", currentTags.toString());
-        } else {
-            Set<Tag> unusedTags = filterTagE(currentTags);
-            result = String.join(", ", unusedTags.toString());
-        }
-
-        System.out.println(result);
-        return true;
-    }
-
-    public Set<Tag> filterTagI(Collection<MediaUploadableCRUD> mapValues) {
-        Set<Tag> currentTags = new HashSet<>();
-
-        for (MediaUploadableCRUD muCrud : mapValues) {
-            for (MediaUploadableItem items : muCrud.getList()) {
-                currentTags.addAll(items.getTags());
-            }
-        }
-
-        return currentTags;
-    }
-
-    public Set<Tag> filterTagE(Collection<Tag> currentTags) {
-        Set<Tag> unusedTags = new HashSet<>();
-
-        for (Tag tag : Tag.values()) {
-            if (!(currentTags.contains(tag))) {
-                unusedTags.add(tag);
-            }
-        }
-
-        return unusedTags;
+        DisplayTagEvent displayTagEvent = new DisplayTagEvent(this, tagIE);
+        displayTagHandler.handle(displayTagEvent);
     }
 
     public void updateMedia(String location) {
 
         UpdateMuiEvent updateMuiEvent = new UpdateMuiEvent(this, location);
         updateMuiHandler.handle(updateMuiEvent);
-    }
-
-    public Duration updateDuration(LocalTime uploadTime) {
-        LocalTime now = LocalTime.now();
-
-        return Duration.between(uploadTime, now);
     }
 
 
