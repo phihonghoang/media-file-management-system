@@ -132,7 +132,7 @@ public class TCPServer {
     }
 
     public boolean update(String input) {
-        return model.updateMUI(input);
+        return model.updateMui(input);
     }
 
     public String persistence(String input) {

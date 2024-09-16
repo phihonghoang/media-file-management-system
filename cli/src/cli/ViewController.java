@@ -22,6 +22,8 @@ public class ViewController {
     private EventHandler<InsertMuiEvent> insertMuiHandler;
     private EventHandler<DeleteUploaderEvent> deleteUploaderHandler;
     private EventHandler<DeleteMuiEvent> deleteMuiHandler;
+    private EventHandler<UpdateMuiEvent> updateMuiHandler;
+    private EventHandler<DisplayUploaderEvent> displayUploaderHandler;
 
     public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
         this.model = model;
@@ -45,6 +47,14 @@ public class ViewController {
 
     public void setDeleteMuiHandler(EventHandler<DeleteMuiEvent> deleteMuiHandler) {
         this.deleteMuiHandler = deleteMuiHandler;
+    }
+
+    public void setUpdateMuiHandler(EventHandler<UpdateMuiEvent> updateMuiHandler) {
+        this.updateMuiHandler = updateMuiHandler;
+    }
+
+    public void setDisplayUploaderHandler(EventHandler<DisplayUploaderEvent> displayUploaderHandler) {
+        this.displayUploaderHandler = displayUploaderHandler;
     }
 
     public void execute() {
@@ -182,7 +192,7 @@ public class ViewController {
     }
 
     public void updateMode(String input) {
-        System.out.println(updateMedia(input));
+        updateMedia(input);
     }
 
     public void persistenceMode(String input) {
@@ -287,16 +297,10 @@ public class ViewController {
         deleteMuiHandler.handle(deleteMuiEvent);
     }
 
-    public boolean displayUploader() {
-        if (model.getMap().keySet().isEmpty()) {
-            System.out.println("Keine Produzenten vorhanden!");
-            return false;
-        }
+    public void displayUploader() {
 
-        for (String producer: model.getMap().keySet()) {
-            System.out.println("Produzenten: " + producer + ", Mediadateien: " + model.getMap().get(producer).getList().size());
-        }
-        return true;
+        DisplayUploaderEvent displayUploaderEvent = new DisplayUploaderEvent(this);
+        displayUploaderHandler.handle(displayUploaderEvent);
     }
 
     public boolean  displayContent(Collection<MediaUploadableCRUD> mapValues, String input) {
@@ -398,8 +402,10 @@ public class ViewController {
         return unusedTags;
     }
 
-    public boolean updateMedia(String location) {
-        return model.updateMUI(location);
+    public void updateMedia(String location) {
+
+        UpdateMuiEvent updateMuiEvent = new UpdateMuiEvent(this, location);
+        updateMuiHandler.handle(updateMuiEvent);
     }
 
     public Duration updateDuration(LocalTime uploadTime) {

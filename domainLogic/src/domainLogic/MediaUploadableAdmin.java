@@ -117,7 +117,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return new HashMap<>(map);
     }
 
-    public boolean updateMUI(String location) {
+    public boolean updateMui(String location) {
         if (location == null || map.isEmpty()) {
             return false;
         }
