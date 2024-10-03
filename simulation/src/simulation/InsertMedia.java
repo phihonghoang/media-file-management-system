@@ -5,6 +5,7 @@ import domainLogic.*;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -31,13 +32,13 @@ public class InsertMedia extends Thread{
 
         switch (number) {
             case 0:
-                return model.insertMui("Audio",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
+                return model.insertMui("Audio",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
 
             case 1:
-                return model.insertMui("Video",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
+                return model.insertMui("Video",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
 
             case 2:
-                return model.insertMui("AudioVideo",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
+                return model.insertMui("AudioVideo",new UploaderImpl("Phi"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
 
         }
         return false;

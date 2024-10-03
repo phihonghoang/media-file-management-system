@@ -27,7 +27,7 @@ public class DisplayContentListener implements EventListener<DisplayContentEvent
         }
 
         for (MediaUploadableItem item : filteredMediaType) {
-            System.out.println(event.getMediaType() + ", Abrufadresse: "  + item.getAddress() +  ", Verfuegbarkeit: " + item.getAvailability().plus(dcu.updateDuration(item.getUploadTime())).getSeconds() + " Sekunden, Abrufe: " + item.getAccessCount());
+            System.out.println(event.getMediaType() + ", Abrufadresse: "  + item.getAddress() +  ", Verfuegbarkeit: " + dcu.updateDuration(item.getUploadTime()).toMinutes() + " Minuten, Abrufe: " + item.getAccessCount());
         }
     }
 }

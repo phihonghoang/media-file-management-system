@@ -13,6 +13,6 @@ public class InsertMuiListener implements EventListener<InsertMuiEvent> {
 
     @Override
     public void onEvent(InsertMuiEvent event) {
-        this.model.insertMui(event.getMediaType(), event.getUploader(), event.getList(), event.getSize(), event.getAvailability(), event.getPrice(), event.getSampRes1(), event.getSampRes2());
+        this.model.insertMui(event.getMediaType(), event.getUploader(), event.getList(), event.getSize(), event.getAvailability(), event.getPrice(), event.getSampRes1(), event.getSampRes2(), event.getUploadTime());
     }
 }

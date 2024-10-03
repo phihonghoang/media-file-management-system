@@ -4,20 +4,16 @@ import contract.Tag;
 import contract.Uploader;
 import domainLogic.*;
 import eventSystem.infrastructure.*;
-import io.MediaUploadablePersistence;
-
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ViewController {
 
-    private MediaUploadableAdmin model;
     private Scanner scanner;
     private InputValidator inputValidator;
     private Mode currentMode;
-    private MediaUploadablePersistence persistence;
     private EventHandler<InsertUploaderEvent> insertUploaderHandler;
     private EventHandler<InsertMuiEvent> insertMuiHandler;
     private EventHandler<DeleteUploaderEvent> deleteUploaderHandler;
@@ -26,13 +22,13 @@ public class ViewController {
     private EventHandler<DisplayUploaderEvent> displayUploaderHandler;
     private EventHandler<DisplayContentEvent> displayContentHandler;
     private EventHandler<DisplayTagEvent> displayTagHandler;
+    private EventHandler<SaveJosEvent> saveJosHandler;
+    private EventHandler<LoadJosEvent> loadJosHandler;
 
-    public ViewController(MediaUploadableAdmin model, MediaUploadablePersistence persistence) {
-        this.model = model;
+    public ViewController() {
         this.scanner = new Scanner(System.in);
         this.inputValidator = new InputValidator();
         this.currentMode = Mode.Default;
-        this.persistence = persistence;
     }
 
     public void setInsertUploaderHandler(EventHandler<InsertUploaderEvent> insertUploaderHandler) {
@@ -66,6 +62,15 @@ public class ViewController {
     public void setDisplayTagHandler(EventHandler<DisplayTagEvent> displayTagHandler) {
         this.displayTagHandler = displayTagHandler;
     }
+
+    public void setSaveJosHandler(EventHandler<SaveJosEvent> saveJosHandler) {
+        this.saveJosHandler = saveJosHandler;
+    }
+
+    public void setLoadJosHandler(EventHandler<LoadJosEvent> loadJosHandler) {
+        this.loadJosHandler = loadJosHandler;
+    }
+
 
     public void execute() {
 
@@ -147,6 +152,7 @@ public class ViewController {
         }
     }
 
+    // TODO: Bei eingabe, muss nochmal etwas eingegeben werden damit die Ausgabe von help kommt.
     public void help() {
         System.out.println("Help:");
         System.out.println(":c switch to insertion mode");
@@ -247,6 +253,7 @@ public class ViewController {
         int sampRes1 = 1010;
         int sampRes2 = 2020;
         Duration availability = Duration.ZERO;
+        LocalDateTime uploadTime = LocalDateTime.now();
 
         if (inputValidator.sampResValidation(parts, 6)) {
             if (!inputValidator.integerFormatValidation(parts[5], "6") || !inputValidator.integerPositivValidation(parts[5], "6")) {
@@ -264,13 +271,13 @@ public class ViewController {
             sampRes2 = Integer.parseInt(parts[6]);
         }
 
-        createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
+        createMedia(mediaType, uploader, list, size, availability, price, sampRes1, sampRes2, uploadTime);
         return true;
     }
 
-    public void createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+    public void createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
 
-        InsertMuiEvent insertMuiEvent = new InsertMuiEvent(this, mediaType, uploader, list, size, availability, price, sampRes1, sampRes2);
+        InsertMuiEvent insertMuiEvent = new InsertMuiEvent(this, mediaType, uploader, list, size, availability, price, sampRes1, sampRes2, uploadTime);
         insertMuiHandler.handle(insertMuiEvent);
     }
 
@@ -337,24 +344,16 @@ public class ViewController {
 
 
     public void save() {
-        String filename = "MediaUploadable.jos";
-        persistence.save(filename, model);
+
+        SaveJosEvent saveJosEvent = new SaveJosEvent(this);
+        saveJosHandler.handle(saveJosEvent);
     }
 
 
-    public MediaUploadableAdmin load() {
-        String filename = "MediaUploadable.jos";
+    public void load() {
 
-        MediaUploadableAdmin mapPersistence = persistence.load(filename);
-
-        if (mapPersistence != null) {
-            setModel(mapPersistence);
-        }
-
-        return mapPersistence;
+        LoadJosEvent loadJosEvent = new LoadJosEvent(this);
+        loadJosHandler.handle(loadJosEvent);
     }
 
-    private void setModel(MediaUploadableAdmin mapPersistence) {
-        this.model = mapPersistence;
-    }
 }

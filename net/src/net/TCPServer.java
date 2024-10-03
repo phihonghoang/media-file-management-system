@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class TCPServer {
@@ -97,7 +98,7 @@ public class TCPServer {
         if (input.equals("uploader")) {
             return model.insertUploader("DefaultPeter");
         } else if (input.equals("audio")) {
-            return model.insertMui("Audio",new UploaderImpl("DefaultPeter"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500);
+            return model.insertMui("Audio",new UploaderImpl("DefaultPeter"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
         } else {
             return false;
         }

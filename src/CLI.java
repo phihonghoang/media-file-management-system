@@ -2,7 +2,6 @@ import cli.ViewController;
 import domainLogic.MediaUploadableAdmin;
 import eventSystem.infrastructure.*;
 import eventSystem.listener.*;
-import io.MediaUploadablePersistence;
 import observerPattern.CapacityObserver;
 import observerPattern.TagsObserver;
 import observerPatternContract.Observer;
@@ -54,8 +53,15 @@ public class CLI {
         DisplayTagListener displayTagListener = new DisplayTagListener(model);
         displayTagHandler.add(displayTagListener);
 
-        MediaUploadablePersistence persistence = new MediaUploadablePersistence();
-        ViewController vc = new ViewController(model, persistence);
+        EventHandler<SaveJosEvent> saveJosHandler = new EventHandler<>();
+        SaveJosListener saveJosListener = new SaveJosListener(model);
+        saveJosHandler.add(saveJosListener);
+
+        EventHandler<LoadJosEvent> loadJosHandler = new EventHandler<>();
+        LoadJosListener loadJosListener = new LoadJosListener(model);
+        loadJosHandler.add(loadJosListener);
+        
+        ViewController vc = new ViewController();
 
         vc.setInsertUploaderHandler(insertUploaderHandler);
         vc.setInsertMuiHandler(insertMuiHandler);
@@ -65,10 +71,11 @@ public class CLI {
         vc.setDisplayUploaderHandler(displayUploaderHandler);
         vc.setDisplayContentHandler(displayContentHandler);
         vc.setDisplayTagHandler(displayTagHandler);
+        vc.setSaveJosHandler(saveJosHandler);
+        vc.setLoadJosHandler(loadJosHandler);
         vc.execute();
 
         //AudioVideo Phi Animal 10 3.60
-
     }
 
 }

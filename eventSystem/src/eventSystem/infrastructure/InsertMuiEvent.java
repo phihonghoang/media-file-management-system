@@ -5,6 +5,7 @@ import contract.Uploader;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EventObject;
 
@@ -17,8 +18,9 @@ public class InsertMuiEvent extends EventObject {
     private BigDecimal price;
     private int sampRes1;
     private int sampRes2;
+    private LocalDateTime uploadTime;
 
-    public InsertMuiEvent(Object source, String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+    public InsertMuiEvent(Object source, String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
         super(source);
         this.mediaType = mediaType;
         this.uploader = uploader;
@@ -28,6 +30,7 @@ public class InsertMuiEvent extends EventObject {
         this.price = price;
         this.sampRes1 = sampRes1;
         this.sampRes2 = sampRes2;
+        this.uploadTime = uploadTime;
     }
 
     public String getMediaType() {
@@ -60,5 +63,9 @@ public class InsertMuiEvent extends EventObject {
 
     public int getSampRes2() {
         return sampRes2;
+    }
+
+    public LocalDateTime getUploadTime() {
+        return uploadTime;
     }
 }

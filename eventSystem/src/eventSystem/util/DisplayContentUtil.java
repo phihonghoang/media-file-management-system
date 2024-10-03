@@ -3,6 +3,7 @@ package eventSystem.util;
 import domainLogic.*;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -45,8 +46,8 @@ public class DisplayContentUtil {
         return false;
     }
 
-    public Duration updateDuration(LocalTime uploadTime) {
-        LocalTime now = LocalTime.now();
+    public Duration updateDuration(LocalDateTime uploadTime) {
+        LocalDateTime now = LocalDateTime.now();
 
         return Duration.between(uploadTime, now);
     }

@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class MediaUploadableAdmin implements Subject, Serializable {
@@ -16,9 +17,9 @@ public class MediaUploadableAdmin implements Subject, Serializable {
     private Map<String, MediaUploadableCRUD> map;
     private long maxCapacity;
     private long currentCapacity;
+    private List<Observer> observerList;
     @Serial
     private static final long serialVersionUID = 1L;
-    private List<Observer> observerList;
 
     public MediaUploadableAdmin(long maxCapacity) {
         map = new HashMap<>();
@@ -40,7 +41,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal price, int sampRes1, int sampRes2) {
+    public boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal cost, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
         if (uploader == null) {
             return false;
         }
@@ -60,13 +61,13 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         //TODO: Eventuell prüfung der MedienDateien hier verlagern.
         switch (mediaType) {
             case "Audio":
-                mui = new AudioImpl(list, size, uploader, availability, price, sampRes1);
+                mui = new AudioImpl(list, size, uploader, availability, cost, sampRes1, uploadTime, mediaType);
                 break;
             case "Video":
-                mui = new VideoImpl(list, size, uploader, availability, price, sampRes1);
+                mui = new VideoImpl(list, size, uploader, availability, cost, sampRes1, uploadTime, mediaType);
                 break;
             case "AudioVideo":
-                mui  = new AudioVideoImpl(list, size, uploader, availability, price, sampRes1, sampRes2);
+                mui  = new AudioVideoImpl(list, size, uploader, availability, cost, sampRes1, sampRes2, uploadTime, mediaType);
                 break;
             default:
                 return false;
@@ -77,7 +78,6 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    // TODO: Observer nochmal anschauen, wenn Uploader gelöscht keine Benachrichtigung von gelöschten Tags
     public boolean deleteUploader(String uploader) {
         if (uploader == null || map.isEmpty()) {
             return false;

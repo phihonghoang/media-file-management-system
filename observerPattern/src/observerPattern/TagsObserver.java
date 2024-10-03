@@ -6,14 +6,18 @@ import domainLogic.MediaUploadableCRUD;
 import domainLogic.MediaUploadableItem;
 import observerPatternContract.Observer;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TagsObserver implements Observer {
+public class TagsObserver implements Observer, Serializable {
     private MediaUploadableAdmin model;
     private Set<Tag> previousTags;
     private Set<Tag> tempTags;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public TagsObserver(MediaUploadableAdmin model) {
         this.model = model;
