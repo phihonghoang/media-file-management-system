@@ -6,19 +6,21 @@ import observerPattern.CapacityObserver;
 import observerPattern.TagsObserver;
 import observerPatternContract.Observer;
 
-public class CLI {
-    public static void main(String[] args) throws InterruptedException {
+public class AlternativeCLI {
+    public static void main(String[] args) {
 
         // TODO: Fehlermeldung, falls der args[0] kein long-wert ist.
         // Außen kontrollieren
         long capacity = Long.parseLong(args[0]);
 
+        System.out.println(capacity);
+
         MediaUploadableAdmin model = new MediaUploadableAdmin(capacity);
 
         Observer capacityObserver = new CapacityObserver(model);
-        Observer tagsObserver = new TagsObserver(model);
+        //Observer tagsObserver = new TagsObserver(model);
         model.registerObserver(capacityObserver);
-        model.registerObserver(tagsObserver);
+        //model.registerObserver(tagsObserver);
 
         EventHandler<InsertUploaderEvent> insertUploaderHandler = new EventHandler<>();
         InsertUploaderListener insertUploaderListener = new InsertUploaderListener(model);
@@ -28,9 +30,9 @@ public class CLI {
         InsertMuiListener insertMuiListener = new InsertMuiListener(model);
         insertMuiHandler.add(insertMuiListener);
 
-        EventHandler<DeleteUploaderEvent> deleteUploaderHandler = new EventHandler<>();
-        DeleteUploaderListener deleteUploaderListener = new DeleteUploaderListener(model);
-        deleteUploaderHandler.add(deleteUploaderListener);
+        //EventHandler<DeleteUploaderEvent> deleteUploaderHandler = new EventHandler<>();
+        //DeleteUploaderListener deleteUploaderListener = new DeleteUploaderListener(model);
+        //deleteUploaderHandler.add(deleteUploaderListener);
 
         EventHandler<DeleteMuiEvent> deleteMuiHandler = new EventHandler<>();
         DeleteMuiListener deleteMuiListener = new DeleteMuiListener(model);
@@ -48,9 +50,9 @@ public class CLI {
         DisplayContentListener displayContentListener = new DisplayContentListener(model);
         displayContentHandler.add(displayContentListener);
 
-        EventHandler<DisplayTagEvent> displayTagHandler = new EventHandler<>();
-        DisplayTagListener displayTagListener = new DisplayTagListener(model);
-        displayTagHandler.add(displayTagListener);
+        //EventHandler<DisplayTagEvent> displayTagHandler = new EventHandler<>();
+        //DisplayTagListener displayTagListener = new DisplayTagListener(model);
+        //displayTagHandler.add(displayTagListener);
 
         EventHandler<SaveJosEvent> saveJosHandler = new EventHandler<>();
         SaveJosListener saveJosListener = new SaveJosListener(model);
@@ -59,22 +61,21 @@ public class CLI {
         EventHandler<LoadJosEvent> loadJosHandler = new EventHandler<>();
         LoadJosListener loadJosListener = new LoadJosListener(model);
         loadJosHandler.add(loadJosListener);
-        
+
         ViewController vc = new ViewController();
 
         vc.setInsertUploaderHandler(insertUploaderHandler);
         vc.setInsertMuiHandler(insertMuiHandler);
-        vc.setDeleteUploaderHandler(deleteUploaderHandler);
+        //vc.setDeleteUploaderHandler(deleteUploaderHandler);
         vc.setDeleteMuiHandler(deleteMuiHandler);
         vc.setUpdateMuiHandler(updateMuiHandler);
         vc.setDisplayUploaderHandler(displayUploaderHandler);
         vc.setDisplayContentHandler(displayContentHandler);
-        vc.setDisplayTagHandler(displayTagHandler);
+        //vc.setDisplayTagHandler(displayTagHandler);
         vc.setSaveJosHandler(saveJosHandler);
         vc.setLoadJosHandler(loadJosHandler);
         vc.execute();
 
         //AudioVideo Phi Animal 10 3.60
     }
-
 }

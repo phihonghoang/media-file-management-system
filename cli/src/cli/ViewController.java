@@ -232,9 +232,11 @@ public class ViewController {
     }
 
     public void createUploader(String uploader) {
-
-        InsertUploaderEvent insertUploaderEvent = new InsertUploaderEvent(this, uploader);
-        insertUploaderHandler.handle(insertUploaderEvent);
+        
+        if (insertUploaderHandler != null) {
+            InsertUploaderEvent insertUploaderEvent = new InsertUploaderEvent(this, uploader);
+            insertUploaderHandler.handle(insertUploaderEvent);
+        }
     }
 
     // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
@@ -277,8 +279,10 @@ public class ViewController {
 
     public void createMedia(String mediaType, Uploader uploader, Collection<Tag> list, long size,Duration availability, BigDecimal price, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
 
-        InsertMuiEvent insertMuiEvent = new InsertMuiEvent(this, mediaType, uploader, list, size, availability, price, sampRes1, sampRes2, uploadTime);
-        insertMuiHandler.handle(insertMuiEvent);
+        if (insertMuiHandler != null) {
+            InsertMuiEvent insertMuiEvent = new InsertMuiEvent(this, mediaType, uploader, list, size, availability, price, sampRes1, sampRes2, uploadTime);
+            insertMuiHandler.handle(insertMuiEvent);
+        }
     }
 
     // TODO: Wenn ein nicht existierender Tag eingegeben wird => Fehler werfen (EVENTUELL).
@@ -304,56 +308,72 @@ public class ViewController {
 
     public void deleteUploader(String uploader) {
 
-        DeleteUploaderEvent deleteUploaderEvent = new DeleteUploaderEvent(this, uploader);
-        deleteUploaderHandler.handle(deleteUploaderEvent);
+        if (deleteUploaderHandler != null) {
+            DeleteUploaderEvent deleteUploaderEvent = new DeleteUploaderEvent(this, uploader);
+            deleteUploaderHandler.handle(deleteUploaderEvent);
+        }
     }
 
     public void deleteMedia(String location) {
 
-        DeleteMuiEvent deleteMuiEvent = new DeleteMuiEvent(this, location);
-        deleteMuiHandler.handle(deleteMuiEvent);
+        if (deleteMuiHandler != null) {
+            DeleteMuiEvent deleteMuiEvent = new DeleteMuiEvent(this, location);
+            deleteMuiHandler.handle(deleteMuiEvent);
+        }
     }
 
     public void displayUploader() {
 
-        DisplayUploaderEvent displayUploaderEvent = new DisplayUploaderEvent(this);
-        displayUploaderHandler.handle(displayUploaderEvent);
+        if ( displayUploaderHandler != null) {
+            DisplayUploaderEvent displayUploaderEvent = new DisplayUploaderEvent(this);
+            displayUploaderHandler.handle(displayUploaderEvent);
+        }
     }
 
     public void  displayContent(String input) {
         String[] parts = input.trim().split(" ");
         String mediaType = parts[1];
 
-        DisplayContentEvent displayContentEvent = new DisplayContentEvent(this, mediaType);
-        displayContentHandler.handle(displayContentEvent);
+        if (displayContentHandler != null) {
+            DisplayContentEvent displayContentEvent = new DisplayContentEvent(this, mediaType);
+            displayContentHandler.handle(displayContentEvent);
+        }
     }
 
     public void displayTag(String input) {
         String[] parts = input.trim().split(" ");
         String tagIE = parts[1];
 
-        DisplayTagEvent displayTagEvent = new DisplayTagEvent(this, tagIE);
-        displayTagHandler.handle(displayTagEvent);
+        if (displayTagHandler != null) {
+            DisplayTagEvent displayTagEvent = new DisplayTagEvent(this, tagIE);
+            displayTagHandler.handle(displayTagEvent);
+        }
     }
 
     public void updateMedia(String location) {
 
-        UpdateMuiEvent updateMuiEvent = new UpdateMuiEvent(this, location);
-        updateMuiHandler.handle(updateMuiEvent);
+        if (updateMuiHandler != null) {
+            UpdateMuiEvent updateMuiEvent = new UpdateMuiEvent(this, location);
+            updateMuiHandler.handle(updateMuiEvent);
+        }
     }
 
 
     public void save() {
 
-        SaveJosEvent saveJosEvent = new SaveJosEvent(this);
-        saveJosHandler.handle(saveJosEvent);
+        if (saveJosHandler != null) {
+            SaveJosEvent saveJosEvent = new SaveJosEvent(this);
+            saveJosHandler.handle(saveJosEvent);
+        }
     }
 
 
     public void load() {
 
-        LoadJosEvent loadJosEvent = new LoadJosEvent(this);
-        loadJosHandler.handle(loadJosEvent);
+        if (loadJosHandler != null) {
+            LoadJosEvent loadJosEvent = new LoadJosEvent(this);
+            loadJosHandler.handle(loadJosEvent);
+        }
     }
 
 }
