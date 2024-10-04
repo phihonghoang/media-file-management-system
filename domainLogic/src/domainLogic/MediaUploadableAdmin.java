@@ -28,7 +28,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         observerList = new LinkedList<>();
     }
 
-    public boolean insertUploader(String uploader) {
+    public synchronized boolean insertUploader(String uploader) {
         if (uploader == null) {
             return false;
         }
@@ -41,7 +41,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal cost, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
+    public synchronized boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal cost, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
         if (uploader == null) {
             return false;
         }
@@ -78,7 +78,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public boolean deleteUploader(String uploader) {
+    public synchronized boolean deleteUploader(String uploader) {
         if (uploader == null || map.isEmpty()) {
             return false;
         }
@@ -93,7 +93,7 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public MediaUploadableItem deleteMui(String location) {
+    public synchronized MediaUploadableItem deleteMui(String location) {
         if (location == null || map.isEmpty()) {
             return null;
         }
@@ -113,11 +113,11 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return muiDel;
     }
 
-    public Map<String, MediaUploadableCRUD> getMap() {
+    public synchronized Map<String, MediaUploadableCRUD> getMap() {
         return new HashMap<>(map);
     }
 
-    public boolean updateMui(String location) {
+    public synchronized boolean updateMui(String location) {
         if (location == null || map.isEmpty()) {
             return false;
         }
@@ -133,30 +133,30 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return found;
     }
 
-    public long getMaxCapacity() {
+    public synchronized long getMaxCapacity() {
         return maxCapacity;
     }
 
-    private void setCurrentCapacity(long currentCapacity) {
+    private synchronized void setCurrentCapacity(long currentCapacity) {
         this.currentCapacity = currentCapacity;
     }
 
-    public long getCurrentCapacity() {
+    public synchronized long getCurrentCapacity() {
         return currentCapacity;
     }
 
     @Override
-    public void registerObserver(Observer observer) {
+    public synchronized void registerObserver(Observer observer) {
         this.observerList.add(observer);
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public synchronized void removeObserver(Observer observer) {
         this.observerList.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
+    public synchronized void notifyObservers() {
         this.observerList.forEach(Observer::update);
     }
 }

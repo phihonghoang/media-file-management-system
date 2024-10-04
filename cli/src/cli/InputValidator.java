@@ -19,6 +19,16 @@ public class InputValidator {
         return parts.length >= length;
     }
 
+    public boolean numberFormatValidation(String value) {
+        try {
+            Long.parseLong(value);
+            return true;
+        } catch(NumberFormatException e) {
+            System.out.println("The given value is not valid!");
+            return false;
+        }
+    }
+
     public boolean longFormatValidation(String value) {
         try {
             Long.parseLong(value);

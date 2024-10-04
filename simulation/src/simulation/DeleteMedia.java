@@ -9,10 +9,12 @@ import java.util.Random;
 public class DeleteMedia extends Thread{
     private MediaUploadableAdmin model;
     private Random random;
+    private String threadName;
 
-    public DeleteMedia(MediaUploadableAdmin model){
+    public DeleteMedia(MediaUploadableAdmin model, String threadName){
         this.model = model;
         this.random = new Random();
+        this.threadName = threadName;
     }
 
     public void run(){
@@ -20,10 +22,10 @@ public class DeleteMedia extends Thread{
         while(true) {
             synchronized(model){
                 if (getRandomAddress() == null) {
-                    System.out.println("Delete failed");
+                    System.out.println(threadName + ": delete failed");
                 } else {
                     MediaUploadableItem muiDel = model.deleteMui(getRandomAddress());
-                    System.out.println("Delete successful: " + muiDel.getAddress());
+                    System.out.println(threadName + ": delete successful: " + muiDel.getAddress());
                 }
             }
         }
