@@ -17,7 +17,7 @@ public class LoadJosListener implements EventListener<LoadJosEvent> {
    }
 
     @Override
-    public void onEvent(LoadJosEvent event) {
+    public String onEvent(LoadJosEvent event) {
         String filename = "MediaUploadable.jos";
 
         MediaUploadableAdmin modelPersistence = persistence.load(filename);
@@ -27,10 +27,9 @@ public class LoadJosListener implements EventListener<LoadJosEvent> {
             uploaderList.forEach(uploader -> model.deleteUploader(uploader));
 
             insert(modelPersistence);
-
-            System.out.println(model.getMap().size());
-            System.out.println(model.getMap().size());
         }
+
+        return "";
     }
 
     // TODO: In util packen eventuell

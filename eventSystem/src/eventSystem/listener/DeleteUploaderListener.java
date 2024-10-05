@@ -12,7 +12,9 @@ public class DeleteUploaderListener implements EventListener<DeleteUploaderEvent
     }
 
     @Override
-    public void onEvent(DeleteUploaderEvent event) {
+    public String onEvent(DeleteUploaderEvent event) {
         this.model.deleteUploader(event.getUploader());
+
+        return "";
     }
 }

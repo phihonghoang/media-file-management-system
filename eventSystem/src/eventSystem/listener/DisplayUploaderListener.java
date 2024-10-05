@@ -12,14 +12,22 @@ public class DisplayUploaderListener implements EventListener<DisplayUploaderEve
     }
 
     @Override
-    public void onEvent(DisplayUploaderEvent event) {
+    public String onEvent(DisplayUploaderEvent event) {
         if (model.getMap().keySet().isEmpty()) {
-            System.out.println("Empty!");
-            return;
+            return "Empty!";
         }
 
+        StringBuilder sb = new StringBuilder();
         for (String uploader: model.getMap().keySet()) {
-            System.out.println("Produzenten: " + uploader + ", Mediadateien: " + model.getMap().get(uploader).getList().size());
+            sb.append("Producer: ")
+                    .append(uploader)
+                    .append(", Media files: ")
+                    .append(model.getMap().get(uploader).getList().size())
+                    .append("\n");
         }
+
+        sb.setLength(sb.length() - 1);
+
+        return sb.toString();
     }
 }

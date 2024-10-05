@@ -15,10 +15,16 @@ public class EventHandler<T extends EventObject> {
         listenerList.remove(listener);
     }
 
-    public void handle(T event) {
+    public String handle(T event) {
         for (EventListener<T> listener : listenerList) {
-            listener.onEvent(event);
+            String response = listener.onEvent(event);
+
+            if (response != null) {
+                return response;
+            }
         }
+
+        return "No response!";
     }
 
 }

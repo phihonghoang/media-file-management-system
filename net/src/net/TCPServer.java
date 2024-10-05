@@ -31,8 +31,9 @@ public class TCPServer {
                  DataInputStream in = new DataInputStream(socket.getInputStream());
                  DataOutputStream out = new DataOutputStream(socket.getOutputStream());) {
 
-                System.out.println("client: "+socket.getInetAddress()+":"+socket.getPort());
+                System.out.println("client: " + socket.getInetAddress() + ":" + socket.getPort());
 
+                /*
                 while (true) {
                     String clientMessage = in.readUTF();
                     System.out.println("> Request from client: " + clientMessage);
@@ -40,6 +41,7 @@ public class TCPServer {
                     out.writeUTF(res);
                     out.flush();
                 }
+                 */
 
             } catch (EOFException e) {
                 System.out.println("client disconnect");
@@ -52,6 +54,87 @@ public class TCPServer {
 
     }
 
+    /*
+    private String handleRequest(String clientMessage) {
+        String input = "";
+
+        while (true) {
+
+            if (input.equals(":q")) {
+                break;
+            }
+
+            if (input.startsWith(":")) {
+
+                switch (input) {
+                    case ":c":
+                        currentMode = Mode.Insertion;
+                        break;
+
+                    case ":d":
+                        currentMode = Mode.Delete;
+                        break;
+
+                    case ":r":
+                        currentMode = Mode.Display;
+                        break;
+
+                    case ":u":
+                        currentMode = Mode.Update;
+                        break;
+
+                    case ":p":
+                        currentMode = Mode.Persistence;
+                        break;
+
+                    case ":h":
+                        currentMode = Mode.Help;
+                        break;
+
+                    default:
+                        System.out.println("Invalid mode");
+                        break;
+                }
+
+            } else {
+
+                switch (currentMode) {
+                    case Insertion:
+                        insertionMode(input);
+                        break;
+
+                    case Delete:
+                        deleteMode(input);
+                        break;
+
+                    case Display:
+                        displayMode(input);
+                        break;
+
+                    case Update:
+                        updateMode(input);
+                        break;
+
+                    case Persistence:
+                        persistenceMode(input);
+                        break;
+
+                    case Help:
+                        help();
+                        break;
+
+                    default:
+                        System.out.println("Invalid input");
+                        break;
+                }
+            }
+
+        }
+
+        return input;
+    }
+
+    /*
     public String handleRequest(String clientMessage) {
         String[] parts;
         parts = clientMessage.trim().split("\\s+");
@@ -98,7 +181,7 @@ public class TCPServer {
         if (input.equals("uploader")) {
             return model.insertUploader("DefaultPeter");
         } else if (input.equals("audio")) {
-            return model.insertMui("Audio",new UploaderImpl("DefaultPeter"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
+            return model.insertMui("Audio", new UploaderImpl("DefaultPeter"), new LinkedList<Tag>(), 1, Duration.ZERO, new BigDecimal("100"), 500, 500, LocalDateTime.now());
         } else {
             return false;
         }
@@ -145,5 +228,6 @@ public class TCPServer {
             return "error";
         }
     }
+     */
 
 }

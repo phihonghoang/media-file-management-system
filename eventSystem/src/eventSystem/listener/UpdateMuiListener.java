@@ -12,7 +12,9 @@ public class UpdateMuiListener implements EventListener<UpdateMuiEvent> {
     }
 
     @Override
-    public void onEvent(UpdateMuiEvent event) {
+    public String onEvent(UpdateMuiEvent event) {
         this.model.updateMui(event.getLocation());
+
+        return "";
     }
 }

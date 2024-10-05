@@ -18,16 +18,27 @@ public class DisplayContentListener implements EventListener<DisplayContentEvent
     }
 
     @Override
-    public void onEvent(DisplayContentEvent event) {
+    public String onEvent(DisplayContentEvent event) {
         List<MediaUploadableItem> filteredMediaType = dcu.filterMediaType(event.getMediaType(), model.getMap().values());
 
         if (filteredMediaType.isEmpty()) {
-            System.out.println("Empty!");
-            return;
+            return "Empty!";
         }
 
+        StringBuilder sb = new StringBuilder();
         for (MediaUploadableItem item : filteredMediaType) {
-            System.out.println(event.getMediaType() + ", Abrufadresse: "  + item.getAddress() +  ", Verfuegbarkeit: " + dcu.updateDuration(item.getUploadTime()).toMinutes() + " Minuten, Abrufe: " + item.getAccessCount());
+            sb.append(item.getMediaType())
+                    .append(", Address: ")
+                    .append(item.getAddress())
+                    .append(", Availability: ")
+                    .append(dcu.updateDuration(item.getUploadTime()).toMinutes())
+                    .append(" Minutes, Updates: ")
+                    .append(item.getAccessCount())
+                    .append("\n");
         }
+
+        sb.setLength(sb.length() - 1);
+
+        return sb.toString();
     }
 }

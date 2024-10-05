@@ -12,7 +12,9 @@ public class InsertUploaderListener implements EventListener<InsertUploaderEvent
     }
 
     @Override
-    public void onEvent(InsertUploaderEvent event) {
+    public String onEvent(InsertUploaderEvent event) {
         this.model.insertUploader(event.getUploader());
+
+        return "";
     }
 }

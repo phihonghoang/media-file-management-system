@@ -1,9 +1,8 @@
 package net;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
+import eventSystem.infrastructure.DisplayUploaderEvent;
+
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -19,34 +18,43 @@ public class TCPClient {
     public void execute() {
 
         try (Socket socket = new Socket("localhost", 7000);
-             DataInputStream in = new DataInputStream(socket.getInputStream());
+             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
              DataOutputStream out = new DataOutputStream(socket.getOutputStream());) {
 
-            help();
 
             while (true) {
 
-                String input = userInput();
+                System.out.println("Client input:");
+                String input = scanner.nextLine();
 
                 if (input.equals(":q")) {
                     break;
                 }
 
+                // Anfrage als String senden
                 out.writeUTF(input);
                 out.flush();
 
-                System.out.println(in.readUTF());
+                Object response = in.readObject();
 
+                if (response instanceof DisplayUploaderEvent) {
+                    DisplayUploaderEvent event = (DisplayUploaderEvent) response;
+
+                }
             }
 
         } catch (ConnectException e) {
             System.out.println("server unreachable");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
 
+
+    /*
     public void help() {
         System.out.println("Help:");
         System.out.println(":c [uploader|audio]");
@@ -61,6 +69,7 @@ public class TCPClient {
         System.out.print("> ");
         return scanner.nextLine();
     }
+     */
 
 
 

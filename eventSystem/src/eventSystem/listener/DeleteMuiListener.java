@@ -12,7 +12,9 @@ public class DeleteMuiListener implements EventListener<DeleteMuiEvent> {
     }
 
     @Override
-    public void onEvent(DeleteMuiEvent event) {
+    public String onEvent(DeleteMuiEvent event) {
         this.model.deleteMui(event.getLocation());
+
+        return "";
     }
 }

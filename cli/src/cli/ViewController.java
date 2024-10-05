@@ -176,7 +176,7 @@ public class ViewController {
         if (inputValidator.uploaderValidation(parts)) {
             createUploader(parts[0]);
         } else if (inputValidator.mediaValidation(parts)){
-            System.out.println(validateMedia(parts));
+            validateMedia(parts);
         } else {
             System.out.println("Invalid input");
         }
@@ -326,7 +326,7 @@ public class ViewController {
 
         if ( displayUploaderHandler != null) {
             DisplayUploaderEvent displayUploaderEvent = new DisplayUploaderEvent(this);
-            displayUploaderHandler.handle(displayUploaderEvent);
+            System.out.println(displayUploaderHandler.handle(displayUploaderEvent));
         }
     }
 
@@ -336,7 +336,7 @@ public class ViewController {
 
         if (displayContentHandler != null) {
             DisplayContentEvent displayContentEvent = new DisplayContentEvent(this, mediaType);
-            displayContentHandler.handle(displayContentEvent);
+            System.out.println(displayContentHandler.handle(displayContentEvent));
         }
     }
 
@@ -346,7 +346,7 @@ public class ViewController {
 
         if (displayTagHandler != null) {
             DisplayTagEvent displayTagEvent = new DisplayTagEvent(this, tagIE);
-            displayTagHandler.handle(displayTagEvent);
+            System.out.println(displayTagHandler.handle(displayTagEvent));
         }
     }
 

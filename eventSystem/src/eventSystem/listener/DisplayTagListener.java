@@ -18,7 +18,7 @@ public class DisplayTagListener implements EventListener<DisplayTagEvent> {
     }
 
     @Override
-    public void onEvent(DisplayTagEvent event) {
+    public String onEvent(DisplayTagEvent event) {
         Set<Tag> currentTags = dtu.filterTagI(model.getMap().values());
 
         String result;
@@ -29,6 +29,6 @@ public class DisplayTagListener implements EventListener<DisplayTagEvent> {
             result = String.join(", ", unusedTags.toString());
         }
 
-        System.out.println(result);
+        return result;
     }
 }

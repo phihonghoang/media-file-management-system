@@ -15,8 +15,10 @@ public class SaveJosListener implements EventListener<SaveJosEvent> {
     }
 
     @Override
-    public void onEvent(SaveJosEvent event) {
+    public String onEvent(SaveJosEvent event) {
         String filename = "MediaUploadable.jos";
         persistence.save(filename, model);
+
+        return "";
     }
 }
