@@ -41,7 +41,9 @@ public class MediaUploadableAdmin implements Subject, Serializable {
         return true;
     }
 
-    public synchronized boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size, Duration availability, BigDecimal cost, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
+    public synchronized boolean insertMui(String mediaType, Uploader uploader, Collection<Tag> list, long size,
+                                          Duration availability, BigDecimal cost, int sampRes1, int sampRes2, LocalDateTime uploadTime) {
+
         if (uploader == null) {
             return false;
         }

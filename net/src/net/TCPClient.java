@@ -1,60 +1,68 @@
 package net;
 
+import cli.Mode;
 import eventSystem.infrastructure.DisplayUploaderEvent;
 
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class TCPClient {
-    Scanner scanner;
+    private Scanner scanner;
+    private Mode currentMode;
 
     public TCPClient() {
-        scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
+        this.currentMode = Mode.Default;
     }
 
     public void execute() {
 
         try (Socket socket = new Socket("localhost", 7000);
-             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());) {
+             DataInputStream in = new DataInputStream(socket.getInputStream());
+             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());) {
 
+            help();
 
             while (true) {
 
-                System.out.println("Client input:");
-                String input = scanner.nextLine();
+                userInput();
 
-                if (input.equals(":q")) {
+                if (userInput().equals(":q")) {
                     break;
                 }
 
-                // Anfrage als String senden
-                out.writeUTF(input);
-                out.flush();
-
-                Object response = in.readObject();
-
-                if (response instanceof DisplayUploaderEvent) {
-                    DisplayUploaderEvent event = (DisplayUploaderEvent) response;
-
-                }
             }
 
         } catch (ConnectException e) {
             System.out.println("server unreachable");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
+    }
+
+    public void insertionMode (String input) {
+
+    }
+
+    public void deleteMode (String input) {
+
+    }
+
+    public void displayMode(String input) {
+
+    }
+
+    public void updateMode (String input) {
+
+    }
+
+    public void persistenceMode (String input) {
 
     }
 
 
-    /*
     public void help() {
         System.out.println("Help:");
         System.out.println(":c [uploader|audio]");
@@ -69,9 +77,5 @@ public class TCPClient {
         System.out.print("> ");
         return scanner.nextLine();
     }
-     */
-
-
-
 
 }

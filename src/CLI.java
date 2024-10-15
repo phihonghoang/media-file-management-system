@@ -1,3 +1,4 @@
+import cli.InputValidator;
 import cli.ViewController;
 import domainLogic.MediaUploadableAdmin;
 import eventSystem.infrastructure.*;
@@ -9,8 +10,12 @@ import observerPatternContract.Observer;
 public class CLI {
     public static void main(String[] args) throws InterruptedException {
 
-        // TODO: Fehlermeldung, falls der args[0] kein long-wert ist.
-        // Außen kontrollieren
+        InputValidator inputValidator = new InputValidator();
+
+        if (args.length == 0 || !inputValidator.numberFormatValidation(args[0]) || Long.parseLong(args[0]) < 0) {
+            return;
+        }
+
         long capacity = Long.parseLong(args[0]);
 
         MediaUploadableAdmin model = new MediaUploadableAdmin(capacity);

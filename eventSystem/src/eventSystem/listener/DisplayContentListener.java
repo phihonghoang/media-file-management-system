@@ -31,8 +31,8 @@ public class DisplayContentListener implements EventListener<DisplayContentEvent
                     .append(", Address: ")
                     .append(item.getAddress())
                     .append(", Availability: ")
-                    .append(dcu.updateDuration(item.getUploadTime()).toMinutes())
-                    .append(" Minutes, Updates: ")
+                    .append(dcu.updateDuration(item.getUploadTime()).toDays())
+                    .append(" Days, Updates: ")
                     .append(item.getAccessCount())
                     .append("\n");
         }
