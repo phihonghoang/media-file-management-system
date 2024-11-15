@@ -54,7 +54,7 @@ The application features a state-based CLI interface, where users can perform th
 
 2. **Insert Media/Producer**:
    - `P-Name` - Add a producer with a unique name.
-   - `Media-Type P-Name [Tags] [Size] [Cost]` - Add a media file: specifying type, producer, tags, size, and cost.
+   - `Media-Type P-Name [Tags] [Size] [Cost]` - Add a media file: specifying type, producer, tags, size, cost.
 
 3. **View Media/Producer**:
    - `uploader` - Display a list of producers and their media files count.
