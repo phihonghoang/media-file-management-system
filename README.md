@@ -24,9 +24,9 @@ The application is designed with the following functionalities:
   - **JOS (Java Object Serialization)**: A method for serializing the application's state into a format that can be saved and later restored.
   - **JBP (Java Binary Persistence)**: A binary-based persistence method currently under development and will be available in a future update.
 - **Work-in-Progress (WIP)**:
-  - **GUI**: A graphical user interface (GUI).
+  - **GUI**: A graphical user interface built with JavaFX.
   - **TCP/UDP Server**: Server functionality for TCP and UDP.
-  - **JPB (Java Binary Persistence)**: The persistence feature using JPB.
+  - **JPB**: The persistence feature using JPB.
 
 ## Requirements
 
