@@ -74,26 +74,19 @@ The application is designed to be thread-safe. For testing purposes, the followi
 **Simulation**: Simulates concurrent media file insertions and deletions by multiple threads. 
 A configurable number of threads perform random insertions and deletions on media files, with outputs logged to the console and handled by an observer.
 
-## Persistence
-
-The application supports the ability to save and load its state using two different formats:
-- **JOS** (Java Object Serialization)
-- **JBP** (Java Binary Persistence)
-
-## How to Run
-
-1. Clone the repository.
-2. Build the project using your preferred IDE (IntelliJ IDEA recommended).
-3. Run the application through the provided main method.
-
 ## Technologies Used
 
 - **Java 17**
 - **JUnit 5** (for unit testing)
 - **Mockito** (for mocking dependencies in tests)
-- **JavaFX** (for the command-line interface)
 - **Observer Design Pattern** (for capacity and tag change notifications)
 - **MVC Design Pattern** (for separation of concerns)
 - **Event System** (for communication between components)
 - **Thread-Safety**: Simulations for concurrent actions on the business logic
+
+## How to Run
+
+1. Clone the repository.
+2. Build the project using your preferred IDE (IntelliJ IDEA recommended).
+3. Run the application through the provided main method (CLI/alternative CLI).
 
