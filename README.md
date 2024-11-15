@@ -87,6 +87,6 @@ A configurable number of threads perform random insertions and deletions on medi
 ## How to Run
 
 1. Clone the repository.
-2. Build the project using your preferred IDE (IntelliJ IDEA recommended).
+2. Open the project in your preferred code editor (IntelliJ IDEA recommended).
 3. Run the application through the provided main method (CLI/alternative CLI).
 
