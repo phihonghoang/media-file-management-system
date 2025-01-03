@@ -1,4 +1,4 @@
-# Media File Management System (Prototype)
+# Media File Management System
 
 ## Overview
 
